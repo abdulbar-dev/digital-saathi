@@ -13,20 +13,40 @@
   const warn = (operation, error) => {
     if (error) console.warn(`[Digital Saathi] Supabase ${operation} unavailable; local data remains active.`, error);
   };
+  const finiteNumber = (value) => {
+    if (typeof value !== 'number' && (typeof value !== 'string' || !value.trim())) return null;
+    const number = Number(value);
+    return Number.isFinite(number) ? number : null;
+  };
+  const pendingWrites = new Map();
 
   async function updateOrInsert(table, filters, values, operation) {
     const client = getClient();
-    const query = client.from(table).update(values);
-    Object.entries(filters).forEach(([column, value]) => query.eq(column, value));
-    const { data, error } = await query.select(Object.keys(filters).join(','));
-    if (error) {
-      warn(`${operation} update`, error);
-      return;
-    }
-    if (data && data.length > 0) return;
+    const writeKey = `${table}:${JSON.stringify(filters)}`;
+    const previousWrite = pendingWrites.get(writeKey) || Promise.resolve();
+    const write = previousWrite.then(async () => {
+      const query = client.from(table).update(values);
+      Object.entries(filters).forEach(([column, value]) => query.eq(column, value));
+      const { data, error } = await query.select(Object.keys(filters).join(','));
+      if (error) {
+        warn(`${operation} update`, error);
+        return false;
+      }
+      if (data && data.length > 0) return true;
 
-    const result = await client.from(table).insert({ ...filters, ...values });
-    warn(`${operation} insert`, result.error);
+      const result = await client.from(table).insert({ ...filters, ...values });
+      if (result.error) {
+        warn(`${operation} insert`, result.error);
+        return false;
+      }
+      return true;
+    });
+    pendingWrites.set(writeKey, write);
+    try {
+      return await write;
+    } finally {
+      if (pendingWrites.get(writeKey) === write) pendingWrites.delete(writeKey);
+    }
   }
 
   async function getUserData(userId) {
@@ -35,8 +55,8 @@
 
     const [profile, tutorials, quizQuestions, progress, attempts, reminders] = await Promise.all([
       client.from(TABLES.profiles).select('*').eq('id', userId).limit(1),
-      client.from(TABLES.tutorials).select('*'),
-      client.from(TABLES.quizQuestions).select('*'),
+      client.from(TABLES.tutorials).select('*').eq('is_published', true),
+      client.from(TABLES.quizQuestions).select('*').eq('is_published', true),
       client.from(TABLES.progress).select('*').eq('user_id', userId),
       client.from(TABLES.attempts).select('*').eq('user_id', userId),
       client.from(TABLES.reminders).select('*').eq('user_id', userId)
@@ -65,23 +85,30 @@
       scores: { ...localState.scores }
     };
 
-    remote.progress.forEach((row) => {
+    (remote.progress || []).forEach((row) => {
       const lessonId = row.tutorial_id;
       if (!lessonId) return;
-      const step = Number(row.last_step ?? 0);
-      state.step[lessonId] = step;
+      const step = finiteNumber(row.last_step);
+      if (step != null && step >= 0) state.step[lessonId] = step;
       if (row.completed === true) state.done[lessonId] = true;
+      else if (row.completed === false) delete state.done[lessonId];
     });
 
-    remote.attempts.forEach((row) => {
+    (remote.attempts || []).forEach((row) => {
       const lessonId = row.tutorial_id;
-      const score = row.score;
-      const total = row.total_questions;
-      if (lessonId && score != null && total != null) state.scores[lessonId] = [Number(score), Number(total)];
+      const score = finiteNumber(row.score);
+      const total = finiteNumber(row.total_questions);
+      if (lessonId && score != null && score >= 0 && total != null && total > 0) {
+        state.scores[lessonId] = [score, total];
+      }
     });
 
-    const reminder = remote.reminders[0];
-    if (reminder) state.rem = reminder.reminder_time || state.rem;
+    const reminder = (remote.reminders || [])[0];
+    if (reminder?.is_enabled === true && typeof reminder.reminder_time === 'string' && reminder.reminder_time.trim()) {
+      state.rem = reminder.reminder_time;
+    } else if (reminder?.is_enabled === false) {
+      state.rem = '';
+    }
 
     const settings = remote.profile ? {
       ...localSettings,
@@ -96,7 +123,7 @@
   async function saveProgress(userId, lessonId, values) {
     const client = getClient();
     if (!client || !userId || !lessonId) return;
-    await updateOrInsert(TABLES.progress, {
+    return updateOrInsert(TABLES.progress, {
       user_id: userId,
       tutorial_id: lessonId
     }, {
@@ -124,7 +151,7 @@
   async function saveProfile(userId, settings) {
     const client = getClient();
     if (!client || !userId) return;
-    await updateOrInsert(TABLES.profiles, { id: userId }, {
+    return updateOrInsert(TABLES.profiles, { id: userId }, {
       preferred_language: settings.lang,
       text_size: settings.fs,
       voice_enabled: !!settings.voice
@@ -133,10 +160,11 @@
 
   async function saveReminder(userId, reminderTime) {
     const client = getClient();
-    if (!client || !userId || !reminderTime) return;
-    await updateOrInsert(TABLES.reminders, { user_id: userId }, {
-      reminder_time: reminderTime,
-      is_enabled: true
+    if (!client || !userId || typeof reminderTime !== 'string') return;
+    const time = reminderTime.trim();
+    return updateOrInsert(TABLES.reminders, { user_id: userId }, {
+      reminder_time: time,
+      is_enabled: Boolean(time)
     }, 'reminder save');
   }
 

@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WisdomWay – Learn at Your Pace</title>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Varela+Round&display=swap">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}
+body{background-color:#FFFFFF;background-image:linear-gradient(rgba(0,0,0,.09) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.09) 1px,transparent 1px);background-size:40px 40px;background-attachment:fixed;color:#000000;font-family:'Geist','Noto Nastaliq Urdu',system-ui,sans-serif;line-height:1.65;margin:0}
+main :is(h1,h2,p,label):not(.card *){background:#fff;display:block;width:fit-content;max-width:100%;padding:.15em .6em;border:3px solid #0B2A7A;border-radius:.3rem;box-shadow:5px 5px 0 #0B2A7A}
+main>div>button,header{background:#fff;border:3px solid #0B2A7A;border-radius:.5rem;padding:.25rem .9rem;box-shadow:4px 4px 0 #0B2A7A}
+header{border-radius:.5rem;padding:.6rem 1.2rem}
+.hc body{background-image:none}.hc body::before{display:none}@media(prefers-reduced-motion:reduce){*,::after{transition:none!important}}
+#root{position:relative;z-index:1}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 900' preserveAspectRatio='xMidYMid slice'><g fill='none' stroke='%230B2A7A' stroke-width='3' stroke-opacity='.28'><circle cx='1250' cy='150' r='110'/><circle cx='1250' cy='150' r='60'/><rect x='90' y='110' width='96' height='96' rx='14' transform='rotate(14 138 158)'/><circle cx='700' cy='840' r='46'/><rect x='1120' y='600' width='130' height='130' rx='18' transform='rotate(-10 1185 665)'/></g><g fill='%230B2A7A' fill-opacity='.09'><circle cx='170' cy='730' r='80'/><rect x='1290' y='380' width='60' height='60' rx='10' transform='rotate(18 1320 410)'/><circle cx='520' cy='90' r='22'/><rect x='360' y='520' width='34' height='34' rx='6' transform='rotate(-14 377 537)'/><circle cx='980' cy='300' r='14'/></g></svg>") center/cover no-repeat}
+.card>*:not(.shapes){position:relative}
+.shapes{position:absolute;inset:0;overflow:hidden;pointer-events:none;border-radius:inherit}
+.sh{position:absolute;display:block;border:3px solid currentColor;opacity:.35}
+.sh.c1{width:190px;height:190px;border-radius:50%;right:-55px;top:-60px}
+.sh.c2{width:30px;height:30px;border-radius:50%;background:currentColor;right:110px;bottom:26px}
+.sh.s1{width:76px;height:76px;border-radius:10px;transform:rotate(14deg);right:34px;bottom:-24px}
+.sh.s2{width:20px;height:20px;border-radius:4px;background:currentColor;transform:rotate(20deg);right:230px;top:34px}
+
+.land .sh{color:var(--b);opacity:.5}
+.sh.l1{width:130px;height:130px;border-radius:50%;left:-34px;top:36px}
+.sh.l2{width:44px;height:44px;border-radius:50%;background:currentColor;left:72px;bottom:46px}
+.sh.l3{width:92px;height:92px;border-radius:12px;transform:rotate(-12deg);left:150px;bottom:-30px}
+.sh.l4{width:24px;height:24px;border-radius:5px;background:currentColor;transform:rotate(30deg);left:210px;top:30px}
+.sh.l5{width:48px;height:42px;border:0;background:currentColor;clip-path:polygon(50% 0,100% 100%,0 100%);left:96px;top:176px}
+.sh.l6{width:84px;height:42px;border-radius:84px 84px 0 0;border-bottom:0;right:300px;bottom:0}
+.sh.l7{width:30px;height:30px;border:0;background:linear-gradient(currentColor,currentColor) center/100% 3px no-repeat,linear-gradient(currentColor,currentColor) center/3px 100% no-repeat;right:64px;top:160px}
+.sh.l8{width:76px;height:76px;border-radius:50%;box-shadow:inset 0 0 0 10px #fff,inset 0 0 0 13px currentColor;right:22%;bottom:-26px}
+.sh.l9{width:64px;height:12px;border:0;background:radial-gradient(currentColor 3px,transparent 4px) 0 0/21px 12px;left:26%;top:24px}
+@media(max-width:640px){.land .sh.l5,.land .sh.l6,.land .sh.l8,.land .sh.l9{display:none}}
+html,body{max-width:100%;overflow-x:clip}
+main{overflow-wrap:anywhere}
+@media(max-width:480px){.card:not(.py-14){padding:1rem!important}.card{box-shadow:5px 5px 0 var(--b)!important}h1{font-size:1.9rem}}
+@media(hover:none){body{background-attachment:scroll}}
+html[lang=ur] body{line-height:2.1}
+html[lang=ur] h1,html[lang=ur] h2,html[lang=ur] h3{text-transform:none;letter-spacing:0;line-height:1.9}
+html[lang=ur] h1 span{line-height:1.8!important}
+[dir=rtl] .text-left{text-align:right}
+.arw{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;margin-inline-start:10px;border:2px solid currentColor;border-radius:50%;font-size:1rem;line-height:1;vertical-align:middle;transition:transform .3s cubic-bezier(.2,.8,.2,1),background .3s,color .3s}
+button:hover .arw{transform:rotate(-45deg) scale(1.08)}
+
+
+:root{--b:#0B2A7A}
+h1,h2,h3{text-transform:uppercase;letter-spacing:-.02em;font-weight:800}
+.card{position:relative;border-width:3px!important;border-color:var(--b)!important;border-radius:34px 8px 28px 8px/8px 28px 8px 34px!important;box-shadow:8px 8px 0 var(--b),inset 0 0 0 0 var(--b)!important;transition:transform .5s cubic-bezier(.2,.8,.2,1),border-radius .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s cubic-bezier(.2,.8,.2,1)!important}
+.card::after{content:"";position:absolute;inset:-6px;border:2px solid var(--b);border-radius:inherit;filter:url(#rough);pointer-events:none;opacity:1;transition:inset .5s cubic-bezier(.2,.8,.2,1),opacity .4s ease}
+.card:nth-child(odd){transform:rotate(-.35deg)}.card:nth-child(even){transform:rotate(.3deg)}
+.card:hover,.card:nth-child(odd):hover,.card:nth-child(even):hover{border-radius:22px!important;transform:rotate(0deg) translate(-3px,-3px);box-shadow:12px 12px 0 var(--b),inset 0 0 0 3px var(--b)!important}
+.card:hover::after{inset:0;opacity:0}
+button.ui,.ui:is(button){border-width:3px;border-radius:14px 4px 16px 4px/4px 16px 4px 14px;box-shadow:4px 4px 0 var(--b);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s cubic-bezier(.2,.8,.2,1),border-radius .3s cubic-bezier(.2,.8,.2,1),background-color .2s,color .2s!important}
+button.ui:hover:not(:disabled){border-radius:14px;transform:translate(3px,3px);box-shadow:1px 1px 0 var(--b)}
+nav button{box-shadow:none!important;border:0!important}
+nav{border:3px solid var(--b);box-shadow:8px 8px 0 var(--b);border-radius:6px 28px 6px 28px!important}
+input,textarea{border-width:3px!important;border-radius:6px!important;background:#fff}
+.hc .card{border-color:var(--b)!important}
+
+.ui{font-family:'Round8','Round 8','Varela Round','Geist','Noto Nastaliq Urdu',system-ui,sans-serif}
+h1,h2,h3{font-family:'Wagon','Fraunces','Noto Nastaliq Urdu',Georgia,serif}
+input,textarea,select,button{font-family:inherit}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:4px solid #000000;outline-offset:2px}
+.hc body,.hc{background:#fff!important}.hc .card{border:2px solid #000!important;background:#fff!important}.hc .muted{color:#000!important}.hc .card{box-shadow:none}
+
+/* ===== responsive + Urdu overhaul ===== */
+img,svg{max-width:100%}
+.card>*{min-width:0}
+nav button{white-space:normal}
+button.ui{max-width:100%;white-space:normal;text-align:center;overflow-wrap:anywhere}
+button.ui.text-left{text-align:start}
+input[type=checkbox]{flex:none}
+label.flex{gap:1rem}
+html[lang=ur] body,html[lang=ur] .ui,html[lang=ur] h1,html[lang=ur] h2,html[lang=ur] h3,html[lang=ur] button,html[lang=ur] input,html[lang=ur] textarea{font-family:'Noto Naskh Arabic','Noto Nastaliq Urdu',system-ui,sans-serif}
+html[lang=ur] body{line-height:1.85}
+html[lang=ur] .ui,html[lang=ur] button{line-height:1.6}
+html[lang=ur] h1,html[lang=ur] h2,html[lang=ur] h3{line-height:1.5}
+html[lang=ur] p[dir=rtl]{font-family:'Noto Nastaliq Urdu','Noto Naskh Arabic',serif;line-height:2.3}
+html[lang=ur] main :is(h1,h2,p,label):not(.card *){padding:.3em .8em}
+@media(max-width:1023px){
+ nav ul{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:.4rem;overflow:visible!important}
+ nav ul button{text-align:center;padding:.35rem .5rem;font-size:1rem;min-height:48px;justify-content:center}
+ nav>button{text-align:center}
+ main :is(h1,h2,p,label):not(.card *){max-width:100%}
+}
+@media(max-width:640px){
+ .text-5xl{font-size:2rem!important}.text-4xl{font-size:1.75rem!important}.text-3xl{font-size:1.45rem!important}.text-2xl{font-size:1.2rem!important}.text-xl{font-size:1.05rem!important}
+ h1{font-size:clamp(1.5rem,7.5vw,2.2rem)!important}
+ h1 span{font-size:clamp(2rem,13vw,4.2rem)!important}
+ html[lang=ur] h1 span{font-size:clamp(2rem,11vw,3.6rem)!important}
+ .card:nth-child(odd),.card:nth-child(even){transform:none}
+ .card::after{inset:-4px}
+ .py-14{padding-top:2rem!important;padding-bottom:2rem!important}
+ .btnrow,main .flex-wrap>button.font-bold{flex:1 1 100%}
+ button.ui{padding-left:1rem;padding-right:1rem}
+ .grid-cols-7 button{min-height:40px;padding:0;font-size:.95rem}
+ main :is(h1,h2,p,label):not(.card *){box-shadow:3px 3px 0 var(--b)}
+}
+@media(max-width:480px){
+ html{font-size:min(var(--fs,18px),22px)!important}
+ main .flex.gap-2{flex-wrap:wrap}
+ main .flex.gap-2>input{flex:1 1 100%}
+ .land .sh{display:none}.land .sh.c1,.land .sh.c2{display:block}.sh.c1{width:120px;height:120px}
+ div.fixed.z-50{left:.75rem;right:.75rem;align-items:stretch;max-width:none}
+ div.fixed.z-50>div{max-width:none}
+ nav ul{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:360px){nav ul{grid-template-columns:1fr 1fr}.card:not(.py-14){padding:.85rem!important}}
+@media(orientation:landscape) and (max-height:500px){div.fixed.z-50{position:static;margin-top:1rem}main{padding-bottom:1rem}}
+
+/* ===== responsive v2 ===== */
+.min-h-screen{min-height:100vh;min-height:100dvh}
+/* Tablet landscape / small laptop: slimmer sidebar so content keeps room */
+@media(min-width:1024px) and (max-width:1199px){
+ .lg\:w-72{width:15rem}
+ nav ul button{font-size:1rem;padding-inline:.75rem}
+}
+/* Phones + tablets: nav becomes a sticky, swipeable chip bar */
+@media(max-width:1023px){
+ nav{position:sticky;top:.5rem;z-index:40;padding:.4rem .5rem!important;box-shadow:5px 5px 0 var(--b);border-radius:6px 22px 6px 22px!important}
+ nav>button{display:block;width:100%;padding:.25rem .75rem!important;font-size:1.25rem}
+ nav ul{display:flex!important;flex-wrap:nowrap;gap:.4rem;overflow-x:auto!important;overflow-y:hidden;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:.2rem .1rem .35rem}
+ nav ul::-webkit-scrollbar{display:none}
+ nav ul li{flex:0 0 auto;scroll-snap-align:start}
+ nav ul button{width:auto!important;white-space:nowrap;padding:.35rem 1rem;min-height:44px;font-size:1rem}
+}
+/* Tablets: keep 2-column card grids and readable line length */
+@media(min-width:641px) and (max-width:1023px){
+ html{font-size:min(var(--fs,18px),24px)!important}
+ main{max-width:860px}
+}
+/* Phones */
+@media(max-width:640px){
+ .card{padding:1.1rem}
+ .flex.justify-between>button.ui{flex:1 1 100%}
+ .flex-wrap>button.ui{flex:1 1 100%}
+ .grid.sm\:grid-cols-3>.card{padding:.9rem}
+ header.flex{padding:.5rem .8rem}
+ header b{font-size:1.4rem}
+ .text-3xl.leading-relaxed{font-size:1.6rem!important}
+ .h-48{height:11rem}
+ main.pb-28{padding-bottom:6.5rem}
+ /* smaller floating voice button so it never hides content */
+ div.fixed.z-50>button.ui{min-height:44px;padding:.3rem .9rem;font-size:1rem}
+}
+/* Very small phones */
+@media(max-width:380px){
+ html{font-size:min(var(--fs,18px),19px)!important}
+ .p-3{padding:.5rem}
+ .grid-cols-7{gap:2px}
+ .arw{width:24px;height:24px;margin-inline-start:6px}
+}
+/* Touch screens: no sticky hover shifts */
+@media(hover:none){
+ .card:hover,.card:nth-child(odd):hover,.card:nth-child(even):hover{transform:none;border-radius:34px 8px 28px 8px/8px 28px 8px 34px!important;box-shadow:8px 8px 0 var(--b)!important}
+ .card:hover::after{inset:-6px;opacity:1}
+ button.ui:hover:not(:disabled){transform:none;box-shadow:4px 4px 0 var(--b)}
+}
+/* Wide screens: don't let content stretch */
+@media(min-width:1600px){
+ main{max-width:1320px}
+}
+/* Short landscape phones: nav stays compact */
+@media(orientation:landscape) and (max-height:500px){
+ nav{position:static}
+ .py-14{padding-top:1.5rem!important;padding-bottom:1.5rem!important}
+}
+
+/* ===== responsive v3: fluid text + consistent gaps ===== */
+/* boxed headings/paragraphs: keep their offset shadow inside the screen and give each a gap below */
+main :is(h1,h2,p,label):not(.card *){max-width:calc(100% - 6px);margin-bottom:1rem}
+main :is(h1,h2,p,label):not(.card *):last-child{margin-bottom:0}
+/* text inside cards: breathing room even where no spacing utility is used */
+.card :is(h1,h2,h3,p){margin-top:0;margin-bottom:0}
+.card:not([class*="space-y"]):not(.flex)>*+*{margin-top:.75rem}
+.card :is(h1,h2,h3,p,li,button,label,span){overflow-wrap:anywhere;hyphens:auto}
+/* button rows and grids: gaps large enough to clear the 8px shadow + outline */
+main .flex.flex-wrap{row-gap:1rem}
+main .grid{row-gap:1.5rem}
+@media(max-width:1023px){
+ main{padding-top:.5rem}
+ main>div.space-y-6>*+*,main>div.space-y-5>*+*{margin-top:1.75rem}
+ main .grid{gap:1.75rem}
+}
+@media(max-width:640px){
+ /* fluid type scale */
+ main h1{font-size:clamp(1.55rem,7vw,2.1rem)!important;line-height:1.25}
+ main h2{font-size:clamp(1.25rem,5.6vw,1.6rem)!important;line-height:1.3}
+ main h3{font-size:clamp(1.15rem,5vw,1.4rem)!important;line-height:1.3}
+ main p,main li,main label{font-size:clamp(.98rem,4.2vw,1.1rem)}
+ .card p.text-3xl{font-size:clamp(1.35rem,6.2vw,1.7rem)!important}
+ .card .text-5xl{font-size:clamp(1.8rem,9vw,2.4rem)!important}
+ /* spacing */
+ main :is(h1,h2,p,label):not(.card *){margin-bottom:1.1rem;padding:.3em .7em}
+ main .grid{gap:1.75rem}
+ main .flex.gap-3,main .flex.gap-2{gap:.9rem}
+ .card{padding:1.15rem!important}
+ .card>*+*{margin-top:.2rem}
+ .card.space-y-3>*+*,.card.space-y-4>*+*{margin-top:1rem}
+ .card.flex.flex-col{gap:1rem}
+ .card ul.space-y-1>*+*,.card ul>li+li{margin-top:.5rem}
+ /* controls */
+ button.ui{font-size:1rem;padding:.55rem 1rem}
+ input,textarea{font-size:1rem!important}
+ label.flex{gap:.75rem}
+ /* quiz / filter buttons */
+ main .flex.flex-wrap.gap-2>button{flex:1 1 calc(50% - .5rem)}
+}
+@media(max-width:380px){
+ main .flex.flex-wrap.gap-2>button{flex:1 1 100%}
+ main :is(h1,h2,p,label):not(.card *){padding:.25em .55em}
+}
+
+/* ===== responsive v4: Urdu / RTL on small devices ===== */
+/* Arabic-script letters join, so never add spacing, force caps, or split inside a word */
+html[lang=ur] *{letter-spacing:0!important;text-transform:none!important}
+html[lang=ur] main,
+html[lang=ur] .card :is(h1,h2,h3,p,li,button,label,span),
+html[lang=ur] button{overflow-wrap:break-word;word-break:normal;hyphens:manual}
+/* one clear UI face (Naskh) for small sizes; Nastaliq only for lesson step text */
+html[lang=ur] body,html[lang=ur] .ui,html[lang=ur] button,html[lang=ur] input,html[lang=ur] textarea,
+html[lang=ur] h1,html[lang=ur] h2,html[lang=ur] h3{font-family:'Noto Naskh Arabic',system-ui,sans-serif}
+html[lang=ur] main :is(p,li,label){font-size:clamp(1.05rem,4.5vw,1.2rem);line-height:1.9}
+html[lang=ur] main h1{font-size:clamp(1.4rem,6vw,2.1rem)!important;line-height:1.8!important}
+html[lang=ur] main h2{font-size:clamp(1.2rem,5.2vw,1.6rem)!important;line-height:1.8!important}
+html[lang=ur] main h3{font-size:clamp(1.1rem,4.8vw,1.4rem)!important;line-height:1.8!important}
+html[lang=ur] h1 span{font-size:clamp(1.9rem,9vw,3.4rem)!important;line-height:1.7!important;margin-bottom:.5rem}
+html[lang=ur] main :is(h1,h2,p,label):not(.card *){padding:.35em .8em;margin-bottom:1.1rem}
+html[lang=ur] p[dir=rtl]{font-family:'Noto Nastaliq Urdu','Noto Naskh Arabic',serif;font-size:clamp(1.3rem,5.5vw,1.8rem)!important;line-height:2.2}
+/* buttons and nav: room for tall script, no crushed labels */
+html[lang=ur] button.ui{line-height:1.8;padding-top:.45rem;padding-bottom:.45rem}
+html[lang=ur] nav ul button{font-size:1.05rem;line-height:1.8;padding-top:.3rem;padding-bottom:.3rem}
+html[lang=ur] .rounded-full.px-3{display:inline-block;max-width:100%;line-height:1.8;border-radius:1.2rem}
+html[lang=ur] .card.flex.flex-col{gap:1rem}
+/* floating voice button on the mirrored side */
+@media(min-width:481px){html[lang=ur] div.fixed.z-50{right:auto;left:.75rem;align-items:flex-start}}
+@media(max-width:480px){
+ html[lang=ur] main .flex.flex-wrap.gap-2>button{flex:1 1 100%}
+ html[lang=ur] main :is(h1,h2,p,label):not(.card *){padding:.3em .6em}
+ html[lang=ur] .card{padding:1.1rem!important}
+ html[lang=ur] .card.space-y-3>*+*,html[lang=ur] .card.space-y-4>*+*{margin-top:1rem}
+}
+
+/* ===== practice: tap guidance + icons ===== */
+.ico{flex:none;display:inline-block;vertical-align:middle}
+.hintbar{display:flex;align-items:center;gap:.7rem;padding:.6rem .9rem;background:#fff;border:3px dashed var(--b);border-radius:14px;font-weight:600;line-height:1.5}
+.hintbar svg{animation:bob 1.2s ease-in-out infinite}
+button.ui.tap{position:relative;animation:ring 1.4s ease-out infinite}
+input.tapfield{animation:ringf 1.4s ease-out infinite}
+.pt{position:absolute;inset-inline-start:50%;bottom:-34px;margin-inline-start:-15px;pointer-events:none;color:var(--b);animation:bob 1.2s ease-in-out infinite;z-index:2}
+.pt svg{background:#fff;border-radius:50%;padding:2px}
+.pad-pt{padding-bottom:2.4rem}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes ring{0%{box-shadow:4px 4px 0 var(--b),0 0 0 0 rgba(11,42,122,.55)}100%{box-shadow:4px 4px 0 var(--b),0 0 0 14px rgba(11,42,122,0)}}
+@keyframes ringf{0%{box-shadow:0 0 0 0 rgba(11,42,122,.55)}100%{box-shadow:0 0 0 12px rgba(11,42,122,0)}}
+@media(prefers-reduced-motion:reduce){.hintbar svg,button.ui.tap,input.tapfield,.pt{animation:none}button.ui.tap{outline:4px dashed var(--b);outline-offset:3px}}
+
+/* ===== lesson step illustrations ===== */
+.scene{background:#fff;border:3px solid var(--b);border-radius:1rem;padding:.5rem;display:flex;justify-content:center;overflow:hidden}
+.scene svg{display:block;width:100%;max-width:440px;height:auto;max-height:48vh}
+.scene .pulse{transform-box:fill-box;transform-origin:center;animation:pls 1.3s ease-in-out infinite}
+.scene .bobh{animation:bob 1.2s ease-in-out infinite}
+@keyframes pls{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+@media(prefers-reduced-motion:reduce){.scene .pulse,.scene .bobh{animation:none}}
+@media(max-width:480px){.scene{padding:.25rem}.scene svg{max-height:42vh}}
+</style></head>
+<body><svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6"/></filter></svg><div id="root"></div>
+<script>
+const {useState,useEffect,useRef,createContext,useContext}=React;const html=htm.bind(React.createElement);
+const C=createContext();
+const DAYS=n=>new Date(new Date().getFullYear(),new Date().getMonth()+1,0).getDate();
+const iso=d=>{const t=new Date();return `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`};
+const today=()=>iso(new Date().getDate());
+function useLS(k,i){const[v,s]=useState(()=>{try{const r=localStorage.getItem(k);return r?JSON.parse(r):i}catch(e){return i}});
+useEffect(()=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},[k,v]);return[v,s]}
+const D={"Home": "ہوم", "Explore Lessons": "اسباق دیکھیں", "Practice": "مشق", "Safety Center": "حفاظتی مرکز", "My Progress": "میری پیش رفت", "Community & Support": "کمیونٹی اور مدد", "Settings": "ترتیبات", "WisdomWay": "وزڈم وے", "Main": "مین مینو", "Technology": "ٹیکنالوجی", "Should Feel Simple.": "آسان محسوس ہونی چاہیے۔", "Learn digital skills safely, one clear step at a time, at your own pace.": "ڈیجیٹل مہارتیں محفوظ طریقے سے سیکھیں، ایک وقت میں ایک واضح قدم، اپنی رفتار سے۔", "Start Learning": "سیکھنا شروع کریں", "Learn Step by Step": "قدم بہ قدم سیکھیں", "One instruction at a time.": "ایک وقت میں ایک ہدایت۔", "Practise Safely": "محفوظ مشق کریں", "Simulations never touch real accounts.": "مشقیں کبھی اصل اکاؤنٹس کو نہیں چھوتیں۔", "Build Confidence": "اعتماد بنائیں", "Quizzes and progress that cheer you on.": "کوئز اور پیش رفت جو آپ کا حوصلہ بڑھاتے ہیں۔", "Continue Your Journey": "اپنا سفر جاری رکھیں", "Learn at Your Pace. Live with Confidence.": "اپنی رفتار سے سیکھیں۔ اعتماد کے ساتھ جئیں۔", "Continue learning": "سیکھنا جاری رکھیں", "Resume Lesson": "سبق جاری رکھیں", "Start Lesson": "سبق شروع کریں", "My Active Courses": "میرے فعال کورسز", "Review": "دوبارہ دیکھیں", "Resume": "جاری رکھیں", "Start": "شروع کریں", "of": "از", "lessons done": "اسباق مکمل", "sessions logged": "سیشن درج", "Safety Guide": "حفاظتی گائیڈ", "Study Schedule": "مطالعے کا شیڈول", "Tap a day to plan a session.": "سیشن کی منصوبہ بندی کے لیے کسی دن پر ٹیپ کریں۔", "→": "←", "All": "سب", "Technology Basics": "ٹیکنالوجی کی بنیادی باتیں", "Everyday Apps": "روزمرہ ایپس", "Digital Safety": "ڈیجیٹل تحفظ", "Financial Literacy": "مالی آگاہی", "Smart Health": "اسمارٹ صحت", "Creative Arts": "تخلیقی فنون", "No lessons in this category yet. Please choose another.": "اس زمرے میں ابھی کوئی سبق نہیں۔ براہ کرم دوسرا چنیں۔", "Filter by category": "زمرے کے مطابق چھانٹیں", "Beginner": "ابتدائی", "min": "منٹ", "Lesson not found": "سبق نہیں ملا", "Back to Lessons": "اسباق پر واپس جائیں", "← Back to lessons": "→ اسباق پر واپس", "Step": "مرحلہ", "Simpler:": "آسان الفاظ میں:", "Read Aloud": "بلند آواز سے پڑھیں", "Repeat Instructions": "ہدایات دہرائیں", "Ask for Help": "مدد مانگیں", "Read Aloud is not supported in this browser.": "اس براؤزر میں بلند آواز سے پڑھنا دستیاب نہیں۔", "← Previous Step": "→ پچھلا مرحلہ", "Next Step →": "اگلا مرحلہ ←", "Finish Lesson ✓": "سبق مکمل کریں ✓", "Urdu is not available for this step yet, showing English.": "اس مرحلے کا اردو ترجمہ ابھی دستیاب نہیں۔", "Lesson complete:": "سبق مکمل:", "Question": "سوال", "Correct!": "درست!", "Not quite.": "بالکل درست نہیں۔", "Next Question": "اگلا سوال", "See Score": "اسکور دیکھیں", "You scored": "آپ کا اسکور", "Well done for finishing. Every try builds confidence.": "مکمل کرنے پر شاباش۔ ہر کوشش اعتماد بڑھاتی ہے۔", "Retry Quiz": "کوئز دوبارہ کریں", "Back to Dashboard": "ڈیش بورڈ پر واپس", "Elapsed": "گزرا ہوا وقت", "Session complete and saved!": "سیشن مکمل ہوا اور محفوظ ہو گیا!", "Pause": "روکیں", "End Session": "سیشن ختم کریں", "Learning Session": "سیکھنے کا سیشن", "Pick a length. You can stop any time.": "دورانیہ چنیں۔ آپ کسی بھی وقت رک سکتے ہیں۔", "Practice environment · nothing here is real": "مشقی ماحول · یہاں کچھ بھی اصلی نہیں", "Video Call Practice": "ویڈیو کال کی مشق", "Call ended. Well done!": "کال ختم ہوئی۔ شاباش!", "Practice Again": "دوبارہ مشق کریں", "Your camera view": "آپ کے کیمرے کا منظر", "Camera off": "کیمرہ بند", "Camera on": "کیمرہ چالو", "Microphone on": "مائیکروفون چالو", "Microphone muted": "مائیکروفون خاموش", "Turn Camera Off": "کیمرہ بند کریں", "Turn Camera On": "کیمرہ چالو کریں", "Mute": "خاموش کریں", "Unmute": "آواز چالو کریں", "End Call": "کال ختم کریں", "Online Form Practice": "آن لائن فارم کی مشق", "Your first name": "آپ کا پہلا نام", "Email address (practice only)": "ای میل ایڈریس (صرف مشق کے لیے)", "Please type your first name.": "براہ کرم اپنا پہلا نام لکھیں۔", "Email looks like name@example.com.": "ای میل ایسی ہونی چاہیے: name@example.com۔", "Submit Practice Form": "مشقی فارم جمع کریں", "Great job! Form filled correctly. Try again any time.": "بہت خوب! فارم درست بھرا گیا۔ کبھی بھی دوبارہ کوشش کریں۔", "Stop": "رکیں", "Check": "جانچیں", "Verify": "تصدیق کریں", "Do not act straight away.": "فوراً کوئی قدم نہ اٹھائیں۔", "Look for warning signs.": "انتباہی علامات تلاش کریں۔", "Call the real company yourself.": "خود اصل کمپنی کو کال کریں۔", "Fictional sample message": "فرضی نمونہ پیغام", "From:": "بھیجنے والا:", "URGENT! Your bank account is blocked. Tap http://bank-verify.example now and send your OTP to restore access.": "فوری! آپ کا بینک اکاؤنٹ بلاک ہو گیا ہے۔ ابھی http://bank-verify.example پر ٹیپ کریں اور بحالی کے لیے اپنا او ٹی پی بھیجیں۔", "Tap every warning sign you can find (links are never opened):": "ہر وہ انتباہی علامت چنیں جو آپ کو ملے (لنک کبھی نہیں کھلتے):", "Urgent wording": "جلدی کے الفاظ", "Suspicious link": "مشکوک لنک", "OTP request": "او ٹی پی کی درخواست", "Unknown sender": "نامعلوم بھیجنے والا", "\"URGENT\" is pressure.": "\"فوری\" کا لفظ دباؤ ڈالنے کے لیے ہے۔", "Unknown link, never tap.": "نامعلوم لنک، کبھی ٹیپ نہ کریں۔", "Banks never ask for OTP.": "بینک کبھی او ٹی پی نہیں مانگتے۔", "Number is not saved.": "یہ نمبر محفوظ نہیں ہے۔", "You found all 4 signs! This is a scam.": "آپ کو چاروں علامات مل گئیں! یہ دھوکہ ہے۔", "Overall": "مجموعی", "Lessons completed": "مکمل شدہ اسباق", "Steady Learner": "مستقل مزاج سیکھنے والا", "Getting Started": "آغاز کر رہے ہیں", "3+ activities done!": "3 سے زیادہ سرگرمیاں مکمل!", "Complete 3 activities to earn a badge": "بیج حاصل کرنے کے لیے 3 سرگرمیاں مکمل کریں", "In progress": "جاری", "Nothing in progress. Start a lesson!": "کچھ بھی جاری نہیں۔ کوئی سبق شروع کریں!", "Quiz scores": "کوئز کے اسکور", "No quizzes taken yet.": "ابھی کوئی کوئز نہیں دیا۔", "Recent activity": "حالیہ سرگرمی", "No activity yet.": "ابھی کوئی سرگرمی نہیں۔", "Sample content · no real messaging in this prototype": "نمونہ مواد · اس پروٹوٹائپ میں اصلی پیغام رسانی نہیں", "Ask a Question": "سوال پوچھیں", "Your question": "آپ کا سوال", "Save Question": "سوال محفوظ کریں", "Please write at least a short sentence.": "براہ کرم کم از کم ایک مختصر جملہ لکھیں۔", "Saved on this device. A real mentor reply is not connected yet.": "اس ڈیوائس پر محفوظ ہو گیا۔ اصل مینٹور کا جواب ابھی منسلک نہیں۔", "Mentor Tips (sample)": "مینٹور کے مشورے (نمونہ)", "Take your time. There is no rush.": "اپنا وقت لیں۔ کوئی جلدی نہیں۔", "Practise in the Practice area first.": "پہلے مشق کے حصے میں مشق کریں۔", "Ask a family member to sit with you.": "کسی گھر والے سے ساتھ بیٹھنے کو کہیں۔", "Upcoming Sessions (sample)": "آنے والے سیشن (نمونہ)", "Video Calls for Beginners · Sample event": "ابتدائی افراد کے لیے ویڈیو کال · نمونہ تقریب", "Staying Safe Online · Sample event": "آن لائن محفوظ رہنا · نمونہ تقریب", "Saved Notes": "محفوظ نوٹس", "Add": "شامل کریں", "No notes yet.": "ابھی کوئی نوٹ نہیں۔", "New note": "نیا نوٹ", "Speak instead of typing": "ٹائپ کرنے کے بجائے بولیں", "Listening... tap to stop": "سن رہا ہے... رکنے کے لیے ٹیپ کریں", "Voice typing is not supported in this browser. Please type instead.": "اس براؤزر میں آواز سے ٹائپنگ دستیاب نہیں۔ براہ کرم ٹائپ کریں۔", "Microphone permission is blocked. Please allow it in your browser.": "مائیکروفون کی اجازت بند ہے۔ براہ کرم براؤزر میں اجازت دیں۔", "I did not hear anything. Please try again.": "مجھے کچھ سنائی نہیں دیا۔ براہ کرم دوبارہ کوشش کریں۔", "Accessibility": "رسائی", "Language:": "زبان:", "Text size:": "متن کا سائز:", "Normal": "عام", "Large": "بڑا", "Extra Large": "بہت بڑا", "High contrast": "ہائی کنٹراسٹ", "Voice guidance (read steps automatically)": "آواز کی رہنمائی (مراحل خود بخود پڑھیں)", "Daily Reminder": "روزانہ یاد دہانی", "Preferred time": "پسندیدہ وقت", "No time chosen.": "کوئی وقت منتخب نہیں۔", "Preference only, as background notifications are not active in this prototype.": "صرف ترجیح، کیونکہ اس پروٹوٹائپ میں بیک گراؤنڈ اطلاعات فعال نہیں۔", "Reset": "ری سیٹ", "Reset Progress": "پیش رفت ری سیٹ کریں", "Erase all progress, scores and notes?": "تمام پیش رفت، اسکور اور نوٹس مٹا دیں؟", "Yes, reset": "ہاں، ری سیٹ کریں", "Cancel": "منسوخ کریں", "Voice Commands": "آواز کے احکامات", "Stop Listening": "سننا بند کریں", "Listening...": "سن رہا ہے...", "Say: \"go to lessons\", \"next\", \"previous\", \"repeat\", \"help\", \"open video call\", \"stop listening\".": "کہیں: \"اسباق\"، \"اگلا\"، \"پچھلا\"، \"پڑھو\"، \"مدد\"، \"ویڈیو کال کھولو\"، \"خاموش\"۔", "Voice commands are not supported in this browser. Try Chrome, Edge or Safari.": "اس براؤزر میں آواز کے احکامات دستیاب نہیں۔ کروم، ایج یا سفاری آزمائیں۔", "Microphone permission is blocked. Please allow it in your browser, or open this page directly.": "مائیکروفون کی اجازت بند ہے۔ براہ کرم براؤزر میں اجازت دیں، یا یہ صفحہ براہ راست کھولیں۔", "Page not found": "صفحہ نہیں ملا", "Go Home": "ہوم پر جائیں", "app": "ایپ", "icon": "آئیکن", "link": "لنک", "OTP": "او ٹی پی", "A program on your phone, like WhatsApp.": "آپ کے فون پر موجود پروگرام، جیسے واٹس ایپ۔", "A small picture you tap to open something.": "ایک چھوٹی تصویر جسے ٹیپ کر کے کچھ کھولتے ہیں۔", "Blue text that opens a web page when tapped.": "نیلا متن جو ٹیپ کرنے پر ویب صفحہ کھولتا ہے۔", "A secret code sent to your phone. Never share it.": "آپ کے فون پر بھیجا گیا خفیہ کوڈ۔ اسے کبھی شیئر نہ کریں۔", "VC": "کال", "SS": "حفاظت", "PW": "پاس", "SP": "فون", "FL": "مال", "SH": "صحت", "How to Make a Video Call": "ویڈیو کال کیسے کریں", "How to Recognize Scam Messages": "دھوکہ دہی کے پیغامات کیسے پہچانیں", "How to Protect Your Passwords": "اپنے پاس ورڈ کی حفاظت کیسے کریں", "How to Navigate a Smartphone": "اسمارٹ فون کیسے استعمال کریں", "Understanding Savings (Educational)": "بچت کو سمجھنا (تعلیمی)", "Healthy Daily Walking (Educational)": "صحت مند روزانہ چہل قدمی (تعلیمی)", "See and talk to family from anywhere.": "کہیں سے بھی گھر والوں کو دیکھیں اور بات کریں۔", "Spot warning signs before you tap.": "ٹیپ کرنے سے پہلے انتباہی علامات پہچانیں۔", "Keep your accounts safe and private.": "اپنے اکاؤنٹس کو محفوظ اور نجی رکھیں۔", "Home screen, apps and settings made simple.": "ہوم اسکرین، ایپس اور ترتیبات آسان انداز میں۔", "Learn saving basics. No real accounts used.": "بچت کی بنیادی باتیں سیکھیں۔ کوئی اصل اکاؤنٹ استعمال نہیں ہوتا۔", "General wellness tips. Not medical advice.": "عمومی صحت کے مشورے۔ طبی مشورہ نہیں۔", "An icon is a small picture. Touch it gently one time.": "آئیکن ایک چھوٹی تصویر ہے۔ اسے آہستہ سے ایک بار چھوئیں۔", "Tap the name of your family member.": "اپنے گھر والے کے نام پر ٹیپ کریں۔", "Camera = start. Red = stop.": "کیمرہ = شروع۔ سرخ = ختم۔", "Look at who sent the message. If you do not know them, be careful.": "دیکھیں پیغام کس نے بھیجا ہے۔ اگر آپ انہیں نہیں جانتے تو احتیاط کریں۔", "Strangers asking for things are a warning sign.": "اجنبیوں کا کچھ مانگنا انتباہی علامت ہے۔", "Check for pressure words like \"urgent\" or \"act now\".": "\"فوری\" یا \"ابھی کریں\" جیسے دباؤ والے الفاظ دیکھیں۔", "Real banks never rush you.": "اصل بینک آپ کو کبھی جلدی نہیں کرواتے۔", "Never share an OTP code or password. Stop, Check, Verify.": "او ٹی پی کوڈ یا پاس ورڈ کبھی شیئر نہ کریں۔ رکیں، جانچیں، تصدیق کریں۔", "An OTP is a secret code. Keep it to yourself.": "او ٹی پی ایک خفیہ کوڈ ہے۔ اسے اپنے پاس رکھیں۔", "Use a long password with words only you know.": "ایسا لمبا پاس ورڈ رکھیں جس کے الفاظ صرف آپ جانتے ہوں۔", "Longer is stronger.": "جتنا لمبا، اتنا مضبوط۔", "Use a different password for each account.": "ہر اکاؤنٹ کے لیے الگ پاس ورڈ رکھیں۔", "One key should not open every door.": "ایک چابی ہر دروازہ نہیں کھولنی چاہیے۔", "Never tell your password to anyone who calls or messages you.": "اپنا پاس ورڈ کسی کو نہ بتائیں جو آپ کو کال یا پیغام کرے۔", "Keep it secret, even from helpers online.": "اسے خفیہ رکھیں، آن لائن مددگاروں سے بھی۔", "The home screen shows your apps. Tap one to open it.": "ہوم اسکرین آپ کی ایپس دکھاتی ہے۔ کھولنے کے لیے کسی پر ٹیپ کریں۔", "Apps are the little pictures.": "ایپس چھوٹی تصویریں ہوتی ہیں۔", "Swipe up from the bottom to go back to the home screen.": "ہوم اسکرین پر واپس جانے کے لیے نیچے سے اوپر کی طرف سوائپ کریں۔", "Slide your finger upward.": "اپنی انگلی اوپر کی طرف پھسلائیں۔", "Open Settings (gear icon) to change sound and brightness.": "آواز اور روشنی بدلنے کے لیے ترتیبات (گیئر کا آئیکن) کھولیں۔", "The gear looks like a wheel.": "گیئر پہیے جیسا دکھائی دیتا ہے۔", "Saving means keeping a little money aside each month.": "بچت کا مطلب ہر مہینے تھوڑی رقم الگ رکھنا ہے۔", "Small amounts add up.": "چھوٹی رقمیں مل کر بڑی بن جاتی ہیں۔", "Make a simple budget: list what comes in and what goes out.": "ایک سادہ بجٹ بنائیں: لکھیں کیا آتا ہے اور کیا خرچ ہوتا ہے۔", "Write two lists.": "دو فہرستیں لکھیں۔", "A short daily walk is a gentle way to stay active.": "روزانہ مختصر چہل قدمی متحرک رہنے کا نرم طریقہ ہے۔", "Even 10 minutes helps.": "10 منٹ بھی مددگار ہیں۔", "Ask your doctor before starting anything new.": "کوئی بھی نئی چیز شروع کرنے سے پہلے اپنے ڈاکٹر سے پوچھیں۔", "A doctor knows your health best.": "ڈاکٹر آپ کی صحت کو سب سے بہتر جانتا ہے۔", "Which button ends a call?": "کون سا بٹن کال ختم کرتا ہے؟", "The red button": "سرخ بٹن", "The camera button": "کیمرہ بٹن", "The volume button": "آواز کا بٹن", "Red means stop. It hangs up the call.": "سرخ کا مطلب ختم کرنا ہے۔ یہ کال بند کر دیتا ہے۔", "What does the camera button do?": "کیمرہ بٹن کیا کرتا ہے؟", "Starts video": "ویڈیو شروع کرتا ہے", "Sends money": "پیسے بھیجتا ہے", "Turns off phone": "فون بند کرتا ہے", "It lets the other person see you.": "یہ دوسرے شخص کو آپ کو دیکھنے دیتا ہے۔", "A message asks for your OTP. What do you do?": "ایک پیغام آپ سے او ٹی پی مانگتا ہے۔ آپ کیا کرتے ہیں؟", "Share it quickly": "اسے جلدی شیئر کریں", "Never share it": "اسے کبھی شیئر نہ کریں", "Reply with your name": "اپنے نام کے ساتھ جواب دیں", "OTP codes are private. No honest company asks for them.": "او ٹی پی کوڈ نجی ہوتے ہیں۔ کوئی ایماندار کمپنی انہیں نہیں مانگتی۔", "Which password is strongest?": "کون سا پاس ورڈ سب سے مضبوط ہے؟", "Long and unusual is hardest to guess.": "لمبا اور غیر معمولی اندازہ لگانا سب سے مشکل ہوتا ہے۔", "Where do you change brightness?": "روشنی کہاں بدلتے ہیں؟", "Camera": "کیمرہ", "Contacts": "رابطے", "Settings controls how your phone works.": "ترتیبات طے کرتی ہیں کہ آپ کا فون کیسے کام کرے۔", "What is a budget?": "بجٹ کیا ہے؟", "A plan for money": "پیسوں کا منصوبہ", "A bank password": "بینک کا پاس ورڈ", "A type of phone": "فون کی ایک قسم", "A budget helps you plan spending and saving.": "بجٹ آپ کو خرچ اور بچت کی منصوبہ بندی میں مدد دیتا ہے۔", "Who should you ask about health changes?": "صحت میں تبدیلی کے بارے میں کس سے پوچھنا چاہیے؟", "Your doctor": "آپ کا ڈاکٹر", "A stranger online": "آن لائن اجنبی", "An advert": "اشتہار", "Your doctor knows your health.": "آپ کا ڈاکٹر آپ کی صحت جانتا ہے۔"};
+Object.assign(D,{"Tap the camera button to turn your camera off.":"اپنا کیمرہ بند کرنے کے لیے کیمرہ بٹن دبائیں۔","Now tap the microphone button to mute.":"اب خاموش کرنے کے لیے مائیکروفون بٹن دبائیں۔","Tap the red button to end the call.":"کال ختم کرنے کے لیے سرخ بٹن دبائیں۔","Tap the first box and type your name.":"پہلے خانے پر ٹیپ کریں اور اپنا نام لکھیں۔","Tap the second box and type your email.":"دوسرے خانے پر ٹیپ کریں اور اپنی ای میل لکھیں۔","Now tap the Submit button.":"اب جمع کریں بٹن دبائیں۔","Tap a time to begin your session.":"سیشن شروع کرنے کے لیے وقت پر ٹیپ کریں۔","Follow the pointing hand. It shows what to tap next.":"اشارہ کرتے ہاتھ کو دیکھیں۔ یہ بتاتا ہے کہ اگلا کیا ٹیپ کرنا ہے۔"});
+Object.assign(D,{"Listen to this page":"یہ صفحہ سنیں","Stop reading":"پڑھنا بند کریں","Test Urdu voice":"اردو آواز آزمائیں","No Urdu voice is installed on this device, so the page uses an online Urdu voice. This needs an internet connection.":"اس ڈیوائس پر اردو آواز نصب نہیں، اس لیے صفحہ آن لائن اردو آواز استعمال کرتا ہے۔ اس کے لیے انٹرنیٹ ضروری ہے۔"});
+const DG='۰۱۲۳۴۵۶۷۸۹',dig=x=>x.replace(/\d/g,d=>DG[d]);
+const MON={January:'جنوری',February:'فروری',March:'مارچ',April:'اپریل',May:'مئی',June:'جون',July:'جولائی',August:'اگست',September:'ستمبر',October:'اکتوبر',November:'نومبر',December:'دسمبر'};
+const PAT=[[/^(\d+)% complete$/,m=>m[1]+'٪ مکمل'],[/^Day (\d+)$/,m=>'دن '+m[1]],[/^(January|February|March|April|May|June|July|August|September|October|November|December) (\d{4})$/,m=>MON[m[1]]+' '+m[2]],[/^(.*) \(Sample\)$/,m=>m[1]+' (نمونہ)'],[/^Heard: "([\s\S]*)"$/,m=>'سنا گیا: "'+m[1]+'"'],[/^Sorry, I did not understand "([\s\S]*)"\. Try "go to lessons" or "next"\.$/,m=>'معذرت، میں "'+m[1]+'" نہیں سمجھا۔ "اسباق" یا "اگلا" کہہ کر دیکھیں۔'],[/^Voice typing stopped \((.*)\)\.$/,m=>'آواز سے ٹائپنگ رک گئی ('+m[1]+')۔'],[/^Your preferred time is (.+)\.$/,m=>'آپ کا پسندیدہ وقت '+m[1]+' ہے۔'],[/^(\d+)-minute session$/,m=>m[1]+' منٹ کا سیشن'],[/^Ended early \((.+)\)$/,m=>'جلد ختم کیا ('+m[1]+')']];
+const store=new WeakMap();
+function tr(src){const m=src.match(/^(\s*)([\s\S]*?)(\s*)$/),core=m[2];if(!core)return src;let o=D[core];if(o===undefined)for(const[r,f]of PAT){const x=core.match(r);if(x){o=f(x);break}}return m[1]+dig(o===undefined?core:o)+m[3]}
+function useTranslate(lang){useEffect(()=>{const root=document.getElementById('root');
+const T=n=>{const v=n.nodeValue,rec=store.get(n);if(lang!=='ur'){if(rec){n.nodeValue=rec.src;store.delete(n)}return}if(rec&&v===rec.out)return;const out=tr(v);if(out!==v){store.set(n,{src:v,out});n.nodeValue=out}else store.delete(n)};
+const A=el=>{const v=el.getAttribute('aria-label');if(!v)return;const rec=store.get(el);if(lang!=='ur'){if(rec){el.setAttribute('aria-label',rec.src);store.delete(el)}return}if(rec&&v===rec.out)return;const out=tr(v);if(out!==v){store.set(el,{src:v,out});el.setAttribute('aria-label',out)}};
+const walk=n=>{if(n.nodeType===3){T(n);return}if(n.nodeType===1){if(n.hasAttribute('aria-label'))A(n);n.childNodes.forEach(walk)}};
+walk(root);const mo=new MutationObserver(ms=>{for(const m of ms){if(m.type==='characterData')T(m.target);else if(m.type==='attributes')A(m.target);else m.addedNodes.forEach(walk)}});
+mo.observe(root,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['aria-label']});return()=>mo.disconnect()},[lang])}
+const CATS=['All','Technology Basics','Everyday Apps','Digital Safety','Financial Literacy','Smart Health','Creative Arts'];
+const G={'app':'A program on your phone, like WhatsApp.','icon':'A small picture you tap to open something.','link':'Blue text that opens a web page when tapped.','OTP':'A secret code sent to your phone. Never share it.'};
+const L=[
+{id:'call',t:'How to Make a Video Call',cat:'Technology Basics',lv:'Beginner',min:8,ic:'VC',d:'See and talk to family from anywhere.',steps:[
+{en:'Find the video call app icon on your screen and tap it once.',ur:'اسکرین پر ویڈیو کال ایپ کا آئیکن ڈھونڈیں اور ایک بار ٹیپ کریں۔',h:'An icon is a small picture. Touch it gently one time.'},
+{en:'Choose the contact you want to call from your list.',ur:'اپنی فہرست سے وہ شخص چنیں جسے کال کرنی ہے۔',h:'Tap the name of your family member.'},
+{en:'Tap the camera button to start. Tap the red button to end the call.',ur:'کال شروع کرنے کے لیے کیمرہ بٹن دبائیں۔ ختم کرنے کے لیے سرخ بٹن دبائیں۔',h:'Camera = start. Red = stop.'}],
+q:[{q:'Which button ends a call?',o:['The red button','The camera button','The volume button'],a:0,e:'Red means stop. It hangs up the call.'},{q:'What does the camera button do?',o:['Starts video','Sends money','Turns off phone'],a:0,e:'It lets the other person see you.'}]},
+{id:'scam',t:'How to Recognize Scam Messages',cat:'Digital Safety',lv:'Beginner',min:10,ic:'SS',d:'Spot warning signs before you tap.',steps:[
+{en:'Look at who sent the message. If you do not know them, be careful.',h:'Strangers asking for things are a warning sign.'},
+{en:'Check for pressure words like "urgent" or "act now".',h:'Real banks never rush you.'},
+{en:'Never share an OTP code or password. Stop, Check, Verify.',h:'An OTP is a secret code. Keep it to yourself.'}],
+q:[{q:'A message asks for your OTP. What do you do?',o:['Share it quickly','Never share it','Reply with your name'],a:1,e:'OTP codes are private. No honest company asks for them.'}]},
+{id:'pass',t:'How to Protect Your Passwords',cat:'Digital Safety',lv:'Beginner',min:7,ic:'PW',d:'Keep your accounts safe and private.',steps:[
+{en:'Use a long password with words only you know.',h:'Longer is stronger.'},
+{en:'Use a different password for each account.',h:'One key should not open every door.'},
+{en:'Never tell your password to anyone who calls or messages you.',h:'Keep it secret, even from helpers online.'}],
+q:[{q:'Which password is strongest?',o:['1234','MyGardenHas7Roses!','password'],a:1,e:'Long and unusual is hardest to guess.'}]},
+{id:'phone',t:'How to Navigate a Smartphone',cat:'Everyday Apps',lv:'Beginner',min:9,ic:'SP',d:'Home screen, apps and settings made simple.',steps:[
+{en:'The home screen shows your apps. Tap one to open it.',h:'Apps are the little pictures.'},
+{en:'Swipe up from the bottom to go back to the home screen.',h:'Slide your finger upward.'},
+{en:'Open Settings (gear icon) to change sound and brightness.',h:'The gear looks like a wheel.'}],
+q:[{q:'Where do you change brightness?',o:['Settings','Camera','Contacts'],a:0,e:'Settings controls how your phone works.'}]},
+{id:'bank',t:'Understanding Savings (Educational)',cat:'Financial Literacy',lv:'Beginner',min:10,ic:'FL',d:'Learn saving basics. No real accounts used.',steps:[
+{en:'Saving means keeping a little money aside each month.',h:'Small amounts add up.'},{en:'Make a simple budget: list what comes in and what goes out.',h:'Write two lists.'}],
+q:[{q:'What is a budget?',o:['A plan for money','A bank password','A type of phone'],a:0,e:'A budget helps you plan spending and saving.'}]},
+{id:'walk',t:'Healthy Daily Walking (Educational)',cat:'Smart Health',lv:'Beginner',min:6,ic:'SH',d:'General wellness tips. Not medical advice.',steps:[
+{en:'A short daily walk is a gentle way to stay active.',h:'Even 10 minutes helps.'},{en:'Ask your doctor before starting anything new.',h:'A doctor knows your health best.'}],
+q:[{q:'Who should you ask about health changes?',o:['Your doctor','A stranger online','An advert'],a:0,e:'Your doctor knows your health.'}]}];
+L.forEach(l=>l.steps.forEach(st=>{if(!st.ur&&D[st.en])st.ur=D[st.en]}));
+const MSG={from:'+92 300 000 0000 (Sample)',text:'URGENT! Your bank account is blocked. Tap http://bank-verify.example now and send your OTP to restore access.',flags:[['Urgent wording','"URGENT" is pressure.'],['Suspicious link','Unknown link, never tap.'],['OTP request','Banks never ask for OTP.'],['Unknown sender','Number is not saved.']]};
+const NAV=[['home','','Home'],['lessons','','Explore Lessons'],['practice','','Practice'],['safety','','Safety Center'],['progress','','My Progress'],['support','','Community & Support'],['settings','','Settings']];
+const UR={home:'ہوم',lessons:'اسباق',practice:'مشق',safety:'تحفظ',progress:'پیش رفت',support:'مدد',settings:'ترتیبات'};
+
+const Card=({c='',children,...p})=>html`<div className=${'card bg-white border border-[#0B2A7A] rounded-3xl  p-6 '+c} ...${p}>${children}</div>`;
+const Btn=({v='p',c='',...p})=>html`<button className=${'ui min-h-[48px] px-6 rounded-2xl font-bold text-lg border-2 border-[#0B2A7A] transition active:scale-95 disabled:bg-white disabled:text-black disabled:border-dashed '+(v==='p'?'bg-[#000000] text-white hover:bg-white hover:text-black':v==='a'?'bg-white text-black !border-white hover:bg-black hover:text-white':'bg-white border-2 border-[#0B2A7A] text-[#000000] hover:bg-black hover:text-white')+' '+c} ...${p}/>`;
+const Arw=()=>html`<span className="arw" aria-hidden="true">→</span>`;
+const Ring=({p,s=110})=>{const r=s/2-9,cf=2*Math.PI*r;return html`<svg width=${s} height=${s} role="img" aria-label=${p+'% complete'}><circle cx=${s/2} cy=${s/2} r=${r} fill="none" stroke="#000000" strokeWidth="2"/><circle cx=${s/2} cy=${s/2} r=${r} fill="none" stroke="#000000" strokeWidth="12" strokeLinecap="round" strokeDasharray=${cf} strokeDashoffset=${cf*(1-p/100)} transform=${`rotate(-90 ${s/2} ${s/2})`}/><text x="50%" y="54%" textAnchor="middle" fontSize="22" fontWeight="700" fill="#000000" className="ui">${p}%</text></svg>`};
+const Bar=({p})=>html`<div className="h-3 rounded-full bg-white border-2 border-[#0B2A7A] overflow-hidden"><div className="h-full rounded-full bg-black" style=${{width:p+'%'}}/></div>`;
+const Badge=({children})=>html`<span className="ui text-sm font-bold px-3 py-1 rounded-full border-2 border-[#0B2A7A] text-black bg-white">${children}</span>`;
+
+let VOI=[];const loadV=()=>{try{VOI=speechSynthesis.getVoices()||[]}catch(e){}};try{loadV();speechSynthesis.onvoiceschanged=loadV}catch(e){}
+const hasUr=()=>VOI.some(v=>/^ur/i.test(v.lang));
+const pickV=lang=>lang==='ur'?(VOI.find(v=>/^ur/i.test(v.lang))||VOI.find(v=>/^ar/i.test(v.lang))||null):null;
+const VS=(m)=>{try{window.dispatchEvent(new CustomEvent('ww-vs',{detail:m}))}catch(e){}};
+const AQ={id:0,a:null};
+function stopSpeech(){try{AQ.id++;if(AQ.a){AQ.a.pause();AQ.a=null}}catch(e){}try{speechSynthesis.cancel()}catch(e){}}
+const isTalking=()=>{try{return speechSynthesis.speaking||!!(AQ.a&&!AQ.a.paused&&!AQ.a.ended)}catch(e){return false}};
+function localSpeak(parts,lang,end){try{const ur=lang==='ur',v=pickV(lang);
+parts.forEach((x,i)=>{const u=new SpeechSynthesisUtterance(x);u.lang=ur?(v&&!/^ur/i.test(v.lang)?v.lang:'ur-PK'):'en-US';if(v)u.voice=v;u.rate=ur?.9:1;u.onerror=e=>{VS('Device speech failed ('+(e&&e.error||'unknown')+'). آلے کی آواز نہیں چل سکی۔');end&&end()};if(i===parts.length-1&&end)u.onend=end;speechSynthesis.speak(u)})}catch(e){VS('Speech is not available in this browser. اس براؤزر میں آواز دستیاب نہیں۔');end&&end()}}
+/* Urdu without an installed voice: stream short clips from an online text-to-speech service */
+function cloudSpeak(parts,tl,lang,end){const my=++AQ.id;let i=0;
+const next=()=>{if(my!==AQ.id)return;if(i>=parts.length){AQ.a=null;end&&end();return}
+const rest=parts.slice(i);const a=new Audio('https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl='+tl+'&q='+encodeURIComponent(parts[i++]));AQ.a=a;a.onended=next;
+a.onplaying=()=>VS('OK: online Urdu voice is playing. آن لائن اردو آواز چل رہی ہے۔');a.onerror=()=>{if(my!==AQ.id)return;AQ.a=null;VS('Online Urdu voice was blocked or offline. Try opening this file directly in Chrome with internet. آن لائن اردو آواز بلاک ہے یا انٹرنیٹ نہیں۔ فائل کو براہ راست کروم میں کھولیں۔');try{speechSynthesis.cancel()}catch(e){}localSpeak(rest,lang,end)};
+const pr=a.play();if(pr&&pr.catch)pr.catch(er=>{if(my!==AQ.id)return;AQ.a=null;VS('Sound was not allowed ('+(er&&er.name||'error')+'). Tap a button on the page, then try again. پہلے صفحے پر کسی بٹن کو ٹیپ کریں، پھر دوبارہ کوشش کریں۔');localSpeak(rest,lang,end)})};next()}
+function speakList(arr,lang,end){stopSpeech();const parts=[];
+arr.forEach(t=>String(t).split(/[.!?۔؟\n]+/).forEach(x=>{x=x.trim();while(x.length>170){let k=x.lastIndexOf(' ',170);if(k<40)k=170;parts.push(x.slice(0,k));x=x.slice(k).trim()}if(x)parts.push(x)}));
+if(!parts.length){end&&end();return}
+if(lang==='ur'&&!hasUr()&&typeof Audio!=='undefined'&&navigator.onLine!==false)cloudSpeak(parts,'ur',lang,end);else localSpeak(parts,lang,end)}
+function speak(t,lang){speakList([t],lang)}
+const SR=typeof window!=='undefined'&&(window.SpeechRecognition||window.webkitSpeechRecognition);
+function listen(lang,onText,onEnd,onErr,cont){const r=new SR();r.lang=lang==='ur'?'ur-PK':'en-US';r.continuous=!!cont;r.interimResults=false;
+r.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)onText(e.results[i][0].transcript)};
+r.onerror=e=>onErr&&onErr(e.error);r.onend=()=>onEnd&&onEnd();r.start();return r}
+const fire=c=>window.dispatchEvent(new CustomEvent('ww-cmd',{detail:c}));
+const NAVC=[[/\bhome\b|dashboard|ہوم|گھر|مین مینو/,'home'],[/lesson|explore|catalog|اسباق|سبق|لیسن/,'lessons'],[/practice|simulation|مشق|پریکٹس/,'practice'],[/safety|scam|تحفظ|حفاظت|سیفٹی|دھوکہ/,'safety'],[/progress|score|پیش رفت|پروگریس|اسکور/,'progress'],[/support|community|question|مدد|کمیونٹی|سوال/,'support'],[/setting|ترتیبات|سیٹنگ/,'settings']];
+const OPEN=[[/video|call|کال|ویڈیو/,'call'],[/scam|message|دھوکہ|پیغام|اسکیم/,'scam'],[/password|پاس ورڈ|پاسورڈ/,'pass'],[/phone|smartphone|فون|موبائل/,'phone'],[/saving|budget|money|بچت|بجٹ|پیسے/,'bank'],[/walk|health|چہل قدمی|صحت|واک/,'walk']];
+const canSpeak=typeof speechSynthesis!=='undefined';
+
+/* ===== lesson step illustrations (inline SVG strings) ===== */
+const SB='#0B2A7A',SRD='#D62828',SG='#1B8A3A',SL='#E8EEFF',SY='#E0A800',SM='#9AA7D0';
+const HP='M9 11V5a2 2 0 0 1 4 0v6M13 10a2 2 0 0 1 4 0v2M17 11.5a2 2 0 0 1 4 0V15a7 7 0 0 1-7 7h-1a7 7 0 0 1-5.6-2.8L4 14.5a2 2 0 0 1 3-2.6l2 2';
+const sHand=(x,y)=>`<g class="bobh"><g transform="translate(${x-17.6} ${y-4.8}) scale(1.6)"><path d="${HP}" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="${HP}" fill="#fff" stroke="${SB}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g></g>`;
+const sRing=(x,y,r)=>`<circle class="pulse" cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${SB}" stroke-width="4" stroke-dasharray="6 5"/>`;
+const sPh=(inner)=>`<rect x="100" y="6" width="120" height="248" rx="20" fill="#fff" stroke="${SB}" stroke-width="4"/><rect x="108" y="26" width="104" height="208" rx="6" fill="${SL}"/><rect x="146" y="13" width="28" height="5" rx="2.5" fill="${SB}"/>${inner}`;
+const sApp=(x,y,c)=>`<rect x="${x}" y="${y}" width="26" height="26" rx="7" fill="${c}"/>`;
+const sWrap=(inner)=>`<svg viewBox="0 0 320 260" xmlns="http://www.w3.org/2000/svg" font-family="Geist,system-ui,sans-serif" font-weight="700">${inner}</svg>`;
+const sGrid=()=>{const cols=[118,150,182],rows=[38,74,110,146],col=[SB,SG,SY,'#7B3FE4',SRD,'#0B8FB5','#555','#E26D00','#2F6F4F','#B83280','#333','#4A5FC1'];let o='';rows.forEach((y,r)=>cols.forEach((x,c)=>{o+=sApp(x,y,col[r*3+c])}));return o+`<rect x="114" y="196" width="92" height="30" rx="12" fill="#fff" opacity=".85"/>`};
+const sVid=(x,y)=>`<rect x="${x+5}" y="${y+8}" width="11" height="10" rx="2" fill="#fff"/><path d="M${x+16} ${y+11}l6-3v10l-6-3z" fill="#fff"/>`;
+const sGear=(x,y)=>`<circle cx="${x+13}" cy="${y+13}" r="7" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="3.6 3.6"/><circle cx="${x+13}" cy="${y+13}" r="5" fill="none" stroke="#fff" stroke-width="2.5"/>`;
+const sBar=(x,y,w,c=SM,h=6)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h/2}" fill="${c}"/>`;
+const sAvatar=(cx,cy,r,c=SB)=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c}"/><circle cx="${cx}" cy="${cy-r*.2}" r="${r*.34}" fill="#fff"/><path d="M${cx-r*.6} ${cy+r*.75}a${r*.6} ${r*.55} 0 0 1 ${r*1.2} 0z" fill="#fff"/>`;
+const sRow=(y,hl)=>`<rect x="114" y="${y}" width="92" height="34" rx="8" fill="#fff" stroke="${hl?SB:'#B8C4E8'}" stroke-width="${hl?3:1.5}"/>${sAvatar(130,y+17,10,hl?SB:SM)}${sBar(146,y+10,hl?30:42)}${sBar(146,y+20,24,'#C7D0EA',5)}${hl?`<rect x="188" y="${y+11}" width="12" height="12" rx="3" fill="${SB}"/><path d="M200 ${y+14}l5-2.5v10l-5-2.5z" fill="${SB}"/>`:''}`;
+const sHeader=()=>`<rect x="108" y="26" width="104" height="26" fill="${SB}"/><rect x="120" y="36" width="40" height="6" rx="3" fill="#fff"/>`;
+const sLock=(x,y,c=SB,open=false)=>`<path d="M${x+6} ${y+14}v-6a10 10 0 0 1 20 0v${open?-2:6}" fill="none" stroke="${c}" stroke-width="4" stroke-linecap="round"/><rect x="${x}" y="${y+14}" width="32" height="26" rx="6" fill="${c}"/><circle cx="${x+16}" cy="${y+26}" r="3.5" fill="#fff"/><rect x="${x+14.5}" y="${y+27}" width="3" height="7" rx="1.5" fill="#fff"/>`;
+const sKey=(x,y,c)=>`<circle cx="${x}" cy="${y}" r="8" fill="none" stroke="${c}" stroke-width="4"/><path d="M${x+8} ${y}h26M${x+26} ${y}v7M${x+33} ${y}v5" stroke="${c}" stroke-width="4" stroke-linecap="round" fill="none"/>`;
+const sNo=(x,y,r)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${SRD}" stroke-width="6"/><path d="M${x-r*.7} ${y-r*.7}L${x+r*.7} ${y+r*.7}" stroke="${SRD}" stroke-width="6" stroke-linecap="round"/>`;
+const sTick=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><circle r="14" fill="${SG}"/><path d="M-6 0l4 5 8-10" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+const sCoin=(x,y,r=11)=>`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*.45}" fill="${SY}" stroke="#8A6500" stroke-width="2"/>`;
+const sPerson=(x,y,coat='#fff')=>`<circle cx="${x}" cy="${y}" r="16" fill="#F2C9A0" stroke="${SB}" stroke-width="3"/><path d="M${x-30} ${y+62}a30 36 0 0 1 60 0z" fill="${coat}" stroke="${SB}" stroke-width="3"/>`;
+
+const SCENES={
+call1:()=>sWrap(sPh(sGrid()+sVid(150,74)+sRing(163,87,22))+sHand(167,98)),
+call2:()=>sWrap(sPh(sHeader()+[58,96,134,172].map((y,i)=>sRow(y,i===1)).join(''))+sRing(194,113,14)+sHand(194,124)),
+call3:()=>sWrap(sPh(`<rect x="108" y="26" width="104" height="208" rx="6" fill="#1F2D5C"/>${sAvatar(160,96,34,SM)}<rect x="182" y="34" width="24" height="34" rx="5" fill="${SB}" stroke="#fff" stroke-width="2"/><circle cx="128" cy="196" r="13" fill="#fff"/><rect x="124.5" y="189" width="7" height="12" rx="3.5" fill="${SB}"/><circle cx="160" cy="196" r="13" fill="#fff"/><rect x="154" y="191" width="9" height="10" rx="2" fill="${SB}"/><path d="M163 194l5-3v10l-5-3z" fill="${SB}"/><circle cx="192" cy="196" r="13" fill="${SRD}"/><path d="M186 197q6-5 12 0" stroke="#fff" stroke-width="4" stroke-linecap="round" fill="none"/>`)+sRing(160,196,19)+sHand(160,212)),
+scam1:()=>sWrap(sPh(sHeader().replace(/<rect x="120"[^>]*>/,'')+sAvatar(124,39,9,'#fff').replace(/#fff/,'#fff')+`<circle cx="124" cy="39" r="9" fill="${SM}"/><text x="124" y="44" font-size="14" fill="#fff" text-anchor="middle">?</text>`+sBar(140,36,50,'#fff')+`<rect x="116" y="64" width="84" height="46" rx="12" fill="#fff" stroke="${SM}" stroke-width="2"/>${sBar(124,76,64,'#C7D0EA')}${sBar(124,90,48,'#C7D0EA')}<rect x="132" y="124" width="72" height="34" rx="12" fill="${SB}"/>${sBar(140,136,52,'#fff')}`)+sRing(154,39,30).replace('<circle','<ellipse').replace('r="30"','rx="42" ry="16"')+sHand(160,52)),
+scam2:()=>sWrap(sPh(`<rect x="116" y="46" width="88" height="110" rx="12" fill="#fff" stroke="${SM}" stroke-width="2"/><rect x="116" y="46" width="88" height="26" rx="12" fill="${SRD}"/><rect x="116" y="60" width="88" height="12" fill="${SRD}"/><text x="160" y="65" font-size="15" fill="#fff" text-anchor="middle">URGENT!</text>${sBar(126,86,68,'#C7D0EA')}${sBar(126,100,56,'#C7D0EA')}${sBar(126,114,64,'#C7D0EA')}${sBar(126,128,40,'#C7D0EA')}`)+`<circle cx="262" cy="96" r="30" fill="#fff" stroke="${SRD}" stroke-width="5"/><path d="M262 76v22l14 8" stroke="${SRD}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><text x="262" y="148" font-size="22" fill="${SRD}" text-anchor="middle">!!</text>`+sRing(160,59,38).replace('<circle','<ellipse').replace('r="38"','rx="48" ry="16"')+sHand(204,70)),
+scam3:()=>sWrap(sPh(`<rect x="116" y="56" width="88" height="82" rx="12" fill="#fff" stroke="${SM}" stroke-width="2"/>${sBar(126,66,64,'#C7D0EA')}${[0,1,2,3,4,5].map(i=>`<rect x="${122+i*13}" y="90" width="11" height="22" rx="3" fill="${SL}" stroke="${SB}" stroke-width="2"/><text x="${127.5+i*13}" y="106" font-size="13" fill="${SB}" text-anchor="middle">${[4,8,1,9,2,7][i]}</text>`).join('')}${sBar(126,122,40,'#C7D0EA')}`)+`<path d="M214 100h38" stroke="${SB}" stroke-width="4" stroke-dasharray="7 6" stroke-linecap="round"/>`+sAvatar(282,100,22,'#444')+sNo(250,100,22)+sHand(250,126)),
+pass1:()=>sWrap(`<rect x="30" y="34" width="260" height="54" rx="12" fill="#fff" stroke="${SM}" stroke-width="3"/>${[0,1,2,3].map(i=>`<circle cx="${52+i*20}" cy="61" r="6" fill="${SM}"/>`).join('')}${sBar(206,57,70,"#F2B8B8",8)}${sBar(206,57,16,SRD,8)}<rect x="30" y="110" width="260" height="62" rx="12" fill="#fff" stroke="${SB}" stroke-width="4"/>${Array.from({length:15},(_,i)=>`<circle cx="${48+i*16}" cy="141" r="6" fill="${SB}"/>`).join('')}<rect x="30" y="184" width="260" height="14" rx="7" fill="#DCE3F5"/><rect x="30" y="184" width="260" height="14" rx="7" fill="${SG}"/>${sTick(272,224,0.9)}<rect x="30" y="214" width="110" height="10" rx="5" fill="${SG}" opacity=".35"/>`+sHand(236,174)),
+pass2:()=>sWrap([0,1,2].map(i=>{const x=48+i*90,c=[SB,SG,SY][i];return `${sLock(x,34,'#555')}${sKey(x+6,118,c)}<path d="M${x+16} 82v26" stroke="${c}" stroke-width="3" stroke-dasharray="4 4"/>${sTick(x+16,186,1)}`}).join('')+`<rect x="30" y="226" width="260" height="6" rx="3" fill="${SL}"/>`),
+pass3:()=>sWrap(sPerson(70,60,'#C7D0EA')+`<path d="M104 52h24" stroke="${SB}" stroke-width="3"/><rect x="118" y="26" width="100" height="56" rx="14" fill="#fff" stroke="${SB}" stroke-width="3"/><path d="M132 82l-8 14 18-10z" fill="#fff" stroke="${SB}" stroke-width="3" stroke-linejoin="round"/><text x="168" y="62" font-size="22" fill="${SB}" text-anchor="middle">pass?</text>`+sNo(168,54,40)+sLock(220,150,SG)+sAvatar(80,196,26,SB)+`<path d="M110 190h96" stroke="${SG}" stroke-width="4" stroke-dasharray="7 6" stroke-linecap="round"/>`),
+phone1:()=>sWrap(sPh(sGrid()+sRing(195,87,22))+sHand(197,98)),
+phone2:()=>sWrap(sPh(`<rect x="116" y="38" width="88" height="150" rx="10" fill="#fff" stroke="${SB}" stroke-width="3"/>${sBar(126,50,50,SM)}${sBar(126,64,68,'#C7D0EA')}${sBar(126,78,60,'#C7D0EA')}<rect x="140" y="214" width="40" height="6" rx="3" fill="${SB}"/>`)+`<path d="M160 208V112" stroke="${SB}" stroke-width="5" stroke-dasharray="9 7" stroke-linecap="round"/><path d="M146 126l14-18 14 18" fill="none" stroke="${SB}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`+sHand(160,222)),
+phone3:()=>sWrap(sPh(sGrid()+sGear(182,110)+sRing(195,123,22))+sHand(197,134)+`<rect x="226" y="60" width="86" height="92" rx="14" fill="#fff" stroke="${SB}" stroke-width="3"/><circle cx="246" cy="84" r="8" fill="${SY}"/><path d="M246 70v-4M246 98v4M232 84h-4M264 84h-4" stroke="${SY}" stroke-width="3" stroke-linecap="round"/>${sBar(260,81,44,'#C7D0EA',6)}<circle cx="284" cy="84" r="7" fill="${SB}"/><path d="M234 122h10l6-6v12l-6-6" fill="${SB}"/>${sBar(260,119,44,'#C7D0EA',6)}<circle cx="272" cy="122" r="7" fill="${SB}"/>`),
+bank1:()=>sWrap(`<rect x="110" y="96" width="100" height="120" rx="22" fill="#fff" stroke="${SB}" stroke-width="5"/><rect x="122" y="80" width="76" height="20" rx="6" fill="#fff" stroke="${SB}" stroke-width="5"/>${sCoin(160,198,30)}${sCoin(160,184,30)}${sCoin(160,170,30)}${sCoin(160,156,30)}${sCoin(160,142,30)}<g class="bobh">${sCoin(160,44)}<path d="M160 58v14M152 66l8 10 8-10" stroke="${SB}" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g><rect x="28" y="70" width="64" height="64" rx="10" fill="#fff" stroke="${SB}" stroke-width="4"/><rect x="28" y="70" width="64" height="16" rx="8" fill="${SB}"/><rect x="28" y="78" width="64" height="8" fill="${SB}"/>${sTick(60,112,.9)}<text x="260" y="130" font-size="46" fill="${SG}" text-anchor="middle">+</text>${sCoin(260,160,16)}`),
+bank2:()=>sWrap(`<rect x="24" y="30" width="120" height="170" rx="14" fill="#fff" stroke="${SG}" stroke-width="5"/><path d="M84 50v34M70 72l14 14 14-14" stroke="${SG}" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>${[104,126,148,170].map((y,i)=>sBar(42,y,84-i*10,'#B7DDC2',8)).join('')}<rect x="176" y="30" width="120" height="170" rx="14" fill="#fff" stroke="${SRD}" stroke-width="5"/><path d="M236 84V50M222 62l14-14 14 14" stroke="${SRD}" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>${[104,126,148,170].map((y,i)=>sBar(194,y,60+i*8,'#F2B8B8',8)).join('')}<path d="M150 116h20M150 126h20" stroke="${SB}" stroke-width="5" stroke-linecap="round"/><text x="84" y="232" font-size="18" fill="${SG}" text-anchor="middle">+</text><text x="236" y="232" font-size="22" fill="${SRD}" text-anchor="middle">−</text>`),
+walk1:()=>sWrap(`<circle cx="262" cy="46" r="22" fill="${SY}"/><path d="M262 8v8M262 76v8M224 46h8M292 46h8M235 19l6 6M283 67l6 6M289 19l-6 6M241 67l-6 6" stroke="${SY}" stroke-width="4" stroke-linecap="round"/><path d="M0 200q90-34 160-12t160-20V260H0z" fill="#CFE8D4"/><path d="M20 232q110-52 280-34" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round"/><circle cx="150" cy="82" r="15" fill="#F2C9A0" stroke="${SB}" stroke-width="3"/><path d="M150 98v50M150 108l-24 22M150 108l26 16M150 148l-20 42M150 148l26 40" fill="none" stroke="${SB}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>${[0,1,2].map(i=>`<ellipse cx="${60+i*22}" cy="${214-i*4}" rx="7" ry="4" fill="${SB}" opacity=".35"/>`).join('')}<circle cx="52" cy="60" r="26" fill="#fff" stroke="${SB}" stroke-width="4"/><path d="M52 44v16l10 6" fill="none" stroke="${SB}" stroke-width="4" stroke-linecap="round"/><text x="52" y="108" font-size="20" fill="${SB}" text-anchor="middle">10</text>`),
+walk2:()=>sWrap(sPerson(110,78,'#fff')+`<path d="M92 98q-8 30 18 30t18-30" fill="none" stroke="${SB}" stroke-width="3"/><circle cx="110" cy="132" r="6" fill="${SB}"/><rect x="156" y="30" width="136" height="76" rx="16" fill="#fff" stroke="${SB}" stroke-width="3"/><path d="M168 106l-14 18 24-12z" fill="#fff" stroke="${SB}" stroke-width="3" stroke-linejoin="round"/>${sTick(190,68,1)}${sBar(212,58,60,SM,8)}${sBar(212,76,44,'#C7D0EA',8)}<rect x="60" y="176" width="100" height="56" rx="14" fill="#fff" stroke="${SRD}" stroke-width="4"/><path d="M110 188v32M94 204h32" stroke="${SRD}" stroke-width="9" stroke-linecap="round"/>`)
+};
+const SV={call:['call1','call2','call3'],scam:['scam1','scam2','scam3'],pass:['pass1','pass2','pass3'],phone:['phone1','phone2','phone3'],bank:['bank1','bank2'],walk:['walk1','walk2']};
+const Scene=({k,label})=>html`<div className="scene" role="img" aria-label=${label} dangerouslySetInnerHTML=${{__html:SCENES[k]()}}/>`;
+function LessonCard({l}){const{st,go}=useContext(C);const done=st.done[l.id],cur=st.step[l.id]||0,p=done?100:Math.round(cur/l.steps.length*100);
+return html`<${Card} c="flex flex-col gap-3"><div className="flex flex-wrap items-center justify-between gap-2"><span className="ui w-14 shrink-0 h-14 rounded-2xl bg-black text-white flex items-center justify-center text-xl font-bold" aria-hidden="true">${l.ic}</span><${Badge}>${l.lv} · ${l.min} min</${Badge}></div>
+<h3 className="text-2xl font-bold">${l.t}</h3><p className="muted text-[#000000]">${l.d}</p><${Bar} p=${p}/>
+<${Btn} onClick=${()=>go('lesson-'+l.id)}>${done?'Review':cur>0?'Resume':'Start'}<${Arw}/></${Btn}></${Card}>`}
+
+function Calendar(){const{st,up,set}=useContext(C);const n=DAYS(),first=new Date(new Date().getFullYear(),new Date().getMonth(),1).getDay();
+const cells=[...Array(first).fill(null),...Array.from({length:n},(_,i)=>i+1)];const td=new Date().getDate();
+return html`<${Card}><h3 className="text-2xl font-bold mb-1">Study Schedule</h3><p className="muted text-[#000000] mb-3">Tap a day to plan a session. ${new Date().toLocaleString('en',{month:'long',year:'numeric'})}</p>
+<div className="grid grid-cols-7 gap-1 text-center ui">${(set.lang==='ur'?['ا','پ','م','ب','ج','ج','ہ']:'SMTWTFS'.split('')).map((d,i)=>html`<div key=${i} className="text-sm font-bold text-[#000000]">${d}</div>`)}
+${cells.map((d,i)=>d?html`<button key=${i} aria-pressed=${!!st.plan[iso(d)]} aria-label=${'Day '+d} onClick=${()=>up('plan',{...st.plan,[iso(d)]:!st.plan[iso(d)]})} className=${'min-h-[44px] rounded-xl font-semibold '+(st.plan[iso(d)]?'bg-black text-white':d===td?'border-2 border-[#0B2A7A] font-bold':'hover:bg-black hover:text-white')}>${d}</button>`:html`<div key=${i}/>`)}</div></${Card}>`}
+
+function Home(){const{st,go}=useContext(C);const dn=Object.keys(st.done).length,p=Math.round(dn/L.length*100);
+const cont=L.find(l=>!st.done[l.id]&&st.step[l.id])||L.find(l=>!st.done[l.id])||L[0];
+return html`<div className="space-y-6"><div><h1 className="text-4xl md:text-5xl font-bold">Continue Your Journey</h1><p className="text-xl muted text-[#000000]">Learn at Your Pace. Live with Confidence.</p></div>
+<div className="grid lg:grid-cols-3 gap-6"><${Card} c="lg:col-span-2 !bg-black text-white !border-0"><div className="shapes" aria-hidden="true"><i className="sh c1"></i><i className="sh c2"></i><i className="sh s1"></i><i className="sh s2"></i></div><p className="ui uppercase tracking-widest text-sm">Continue learning</p><h2 className="text-3xl font-bold my-2">${cont.t}</h2><p className="mb-4">${cont.d}</p><${Btn} v="a" onClick=${()=>go('lesson-'+cont.id)}>${st.step[cont.id]?'Resume Lesson':'Start Lesson'}<${Arw}/></${Btn}></${Card}>
+<${Card} c="flex flex-col items-center justify-center text-center"><${Ring} p=${p}/><p className="font-bold mt-2">${dn} of ${L.length} lessons done</p><p className="ui text-sm muted text-[#000000]"> ${Math.min(st.hist.length,99)} sessions logged</p></${Card}></div>
+<div className="grid lg:grid-cols-3 gap-6"><div className="lg:col-span-2 space-y-4"><h2 className="text-2xl font-bold">My Active Courses</h2><div className="grid sm:grid-cols-2 gap-5">${L.slice(0,4).map(l=>html`<${LessonCard} key=${l.id} l=${l}/>`)}</div></div><${Calendar}/></div>
+<div className="flex flex-wrap gap-3"><${Btn} onClick=${()=>go('lessons')}>Explore Lessons<${Arw}/></${Btn}><${Btn} v="s" onClick=${()=>go('practice')}>Practice</${Btn}><${Btn} v="s" onClick=${()=>go('safety')}>Safety Guide</${Btn}></div></div>`}
+
+function Lessons(){const[f,setF]=useState('All');const list=L.filter(l=>f==='All'||l.cat===f);
+return html`<div className="space-y-6"><h1 className="text-4xl font-bold">Explore Lessons</h1>
+<div className="flex flex-wrap gap-2" role="group" aria-label="Filter by category">${CATS.map(c=>html`<button key=${c} aria-pressed=${f===c} onClick=${()=>setF(c)} className=${'ui min-h-[48px] px-5 rounded-2xl font-semibold border-2 '+(f===c?'bg-[#000000] text-white border-[#0B2A7A]':'bg-white border-[#0B2A7A]')}>${c}</button>`)}</div>
+${list.length?html`<div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">${list.map(l=>html`<${LessonCard} key=${l.id} l=${l}/>`)}</div>`:html`<${Card}><p className="text-xl">No lessons in this category yet. Please choose another.</p></${Card}>`}</div>`}
+
+function Quiz({l,done}){const{up,st,set}=useContext(C);const[i,setI]=useState(0),[a,setA]=useState(null),[sc,setSc]=useState(0),[fin,setFin]=useState(false);const q=l.q[i];
+const U=set.lang==='ur',T=x=>U?tr(x):x;
+useEffect(()=>{if(!set.voice||fin)return;speak(T(q.q)+'. '+q.o.map((o,k)=>(U?dig(String(k+1)):k+1)+'. '+T(o)).join('. '),U?'ur':'en');return()=>{stopSpeech()}},[i,fin]);
+const pick=k=>{if(a!==null)return;setA(k);if(k===q.a)setSc(s=>s+1);if(set.voice)speak(T(k===q.a?'Correct!':'Not quite.')+'. '+T(q.e),U?'ur':'en')};
+const next=()=>{if(i+1<l.q.length){setI(i+1);setA(null)}else{setFin(true);up('scores',{...st.scores,[l.id]:[sc,l.q.length]})}};
+if(fin)return html`<${Card} c="text-center space-y-4"><h2 className="text-3xl font-bold">You scored ${sc} of ${l.q.length}</h2><p className="text-xl">Well done for finishing. Every try builds confidence.</p><div className="flex flex-wrap gap-3 justify-center"><${Btn} v="s" onClick=${()=>{setI(0);setA(null);setSc(0);setFin(false)}}>Retry Quiz</${Btn}><${Btn} onClick=${done}>Back to Dashboard</${Btn}></div></${Card}>`;
+return html`<${Card} c="space-y-4"><p className="ui font-bold text-[#000000]">Question ${i+1} of ${l.q.length}</p><h2 className="text-2xl font-bold">${q.q}</h2>
+${q.o.map((o,k)=>html`<button key=${k} onClick=${()=>pick(k)} className=${'ui w-full text-left min-h-[56px] px-5 rounded-2xl border-2 text-xl font-semibold '+(a===null?'bg-white border-[#0B2A7A] hover:bg-black hover:text-white':k===q.a?'bg-black text-white border-[#0B2A7A]':k===a?'bg-white border-[#0B2A7A] border-dashed line-through':'bg-white border-[#0B2A7A]')}>${k+1}. ${o}</button>`)}
+${a!==null&&html`<div role="status" className="p-4 rounded-2xl bg-white border-2 border-[#0B2A7A] text-xl"><b>${a===q.a?' Correct! ':' Not quite. '}</b>${q.e}</div><${Btn} onClick=${next}>${i+1<l.q.length?'Next Question':'See Score'}</${Btn}>`}</${Card}>`}
+
+function Lesson({id}){const{st,up,go,set}=useContext(C);const l=L.find(x=>x.id===id);const[i,setI]=useState(Math.min(st.step[id]||0,(l?.steps.length||1)-1)),[help,setHelp]=useState(false),[quiz,setQuiz]=useState(false);
+if(!l)return html`<${Card}><h1 className="text-3xl font-bold">Lesson not found</h1><${Btn} className="mt-4" onClick=${()=>go('lessons')}>Back to Lessons</${Btn}></${Card}>`;
+const s=l.steps[i],ur=set.lang==='ur'&&s.ur,txt=ur?s.ur:s.en,fallback=set.lang==='ur'&&!s.ur,n=l.steps.length;
+useEffect(()=>{if(set.voice)speak(txt,ur?'ur':'en');return()=>{stopSpeech()}},[i,set.lang]);
+const ref=useRef();useEffect(()=>{const h=e=>ref.current&&ref.current(e.detail);addEventListener('ww-cmd',h);return()=>removeEventListener('ww-cmd',h)},[]);
+const mv=d=>{const k=i+d;if(k>=n){up('done',{...st.done,[id]:true});up('step',{...st.step,[id]:n});up('hist',[...st.hist,{t:l.t,d:today()}]);setQuiz(true);return}setI(k);setHelp(false);up('step',{...st.step,[id]:k})};
+ref.current=c=>{if(quiz)return;if(c==='next')mv(1);else if(c==='prev'&&i>0)mv(-1);else if(c==='read')speak(txt,ur?'ur':'en');else if(c==='help')setHelp(h=>!h)};
+if(quiz)return html`<div className="space-y-4"><h1 className="text-3xl font-bold"> Lesson complete: ${l.t}</h1><${Quiz} l=${l} done=${()=>go('home')}/></div>`;
+return html`<div className="space-y-5 max-w-3xl"><button className="ui underline text-lg" onClick=${()=>go('lessons')}>← Back to lessons</button><h1 className="text-3xl font-bold">${l.t}</h1>
+<div><p className="ui font-bold mb-1">Step ${i+1} of ${n}</p><${Bar} p=${Math.round((i+1)/n*100)}/></div>
+<${Card} c="space-y-4"><p dir=${ur?'rtl':'ltr'} className="text-3xl leading-relaxed font-semibold">${txt}</p>${fallback&&html`<p className="ui text-sm text-[#000000]">Urdu is not available for this step yet, showing English.</p>`}
+<${Scene} k=${SV[l.id][i]} label=${txt}/>
+${help&&html`<div role="status" className="p-4 rounded-2xl bg-white border-2 border-[#0B2A7A] border-2 border-[#0B2A7A] text-xl"><b>Simpler:</b> ${s.h}<ul className="ui text-base mt-2">${Object.entries(G).map(([k,v])=>html`<li key=${k}><b>${k}:</b> ${v}</li>`)}</ul></div>`}
+<div className="flex flex-wrap gap-3"><${Btn} v="s" onClick=${()=>speak(txt,ur?'ur':'en')} disabled=${!canSpeak}> Read Aloud</${Btn}><${Btn} v="s" onClick=${()=>speak(txt,ur?'ur':'en')} disabled=${!canSpeak}> Repeat Instructions</${Btn}><${Btn} v="s" onClick=${()=>{const n=!help;setHelp(n);if(n&&set.voice){const u=set.lang==='ur';speak(u?tr(s.h):s.h,u?'ur':'en')}}}> Ask for Help</${Btn}></div>${!canSpeak&&html`<p className="ui text-sm">Read Aloud is not supported in this browser.</p>`}</${Card}>
+<div className="flex flex-wrap justify-between gap-3"><${Btn} v="s" disabled=${i===0} onClick=${()=>mv(-1)}>← Previous Step</${Btn}><${Btn} onClick=${()=>mv(1)}>${i+1===n?'Finish Lesson ✓':'Next Step →'}</${Btn}></div></div>`}
+
+function Dictate({onText}){const{set}=useContext(C);const[on,setOn]=useState(false),[err,setErr]=useState(''),r=useRef(null);
+useEffect(()=>()=>{try{r.current&&r.current.abort()}catch(e){}},[]);
+if(!SR)return html`<p className="ui text-base">Voice typing is not supported in this browser. Please type instead.</p>`;
+const tog=()=>{if(on){try{r.current.stop()}catch(e){}return}setErr('');setOn(true);
+try{r.current=listen(set.lang,onText,()=>setOn(false),e=>setErr(e==='not-allowed'||e==='service-not-allowed'?'Microphone permission is blocked. Please allow it in your browser.':e==='no-speech'?'I did not hear anything. Please try again.':'Voice typing stopped ('+e+').'),false)}catch(e){setOn(false)}};
+return html`<div className="space-y-1"><${Btn} v="s" type="button" aria-pressed=${on} onClick=${tog}>${on?'Listening... tap to stop':'Speak instead of typing'}</${Btn}>${err&&html`<p role="alert" className="ui font-semibold">${err}</p>`}</div>`}
+
+function VoiceCmd(){const{go,set}=useContext(C);const[on,setOn]=useState(false),[msg,setMsg]=useState(''),rr=useRef(null),live=useRef(false);
+const stop=()=>{live.current=false;setOn(false);try{rr.current&&rr.current.stop()}catch(e){}};
+const[rd,setRd]=useState(false);
+useEffect(()=>{const h=e=>setMsg(e.detail);addEventListener('ww-vs',h);return()=>removeEventListener('ww-vs',h)},[]);
+const readPage=()=>{if(rd||isTalking()){stopSpeech();setRd(false);return}
+const m=document.querySelector('main');if(!m)return;const seen=new Set(),out=[];
+m.querySelectorAll('h1,h2,h3,p,li,label,.hintbar span').forEach(el=>{if(el.closest('svg')||el.closest('[aria-hidden=true]'))return;const t=el.innerText.replace(/\s+/g,' ').trim();if(t&&!seen.has(t)){seen.add(t);out.push(t)}});
+setRd(true);speakList(out,set.lang==='ur'?'ur':'en',()=>setRd(false))};
+const handle=t=>{if(isTalking())return;const x=t.toLowerCase().trim();setMsg('Heard: "'+t+'"');
+if(/stop listening|voice off|خاموش|بند کرو|سننا بند/.test(x)){stop();return}
+if(location.hash.startsWith('#lesson-')){if(/next|forward|اگلا|آگے|نیکسٹ/.test(x))return fire('next');if(/previous|back|پچھلا|پیچھے/.test(x))return fire('prev');if(/repeat|read|again|پڑھ|دہرا|سنا/.test(x))return fire('read');if(/help|مدد|ہیلپ/.test(x))return fire('help')}
+if(/open|start|begin|کھول|شروع/.test(x)){const m=OPEN.find(([r])=>r.test(x));if(m){go('lesson-'+m[1]);return}}
+const n=NAVC.find(([r])=>r.test(x));if(n){go(n[1]);return}
+setMsg('Sorry, I did not understand "'+t+'". Try "go to lessons" or "next".')};
+const begin=()=>{try{rr.current=listen(set.lang,handle,()=>{if(live.current)setTimeout(begin,300)},e=>{if(e==='not-allowed'||e==='service-not-allowed'){setMsg('Microphone permission is blocked. Please allow it in your browser, or open this page directly.');stop()}},true)}catch(e){stop()}};
+useEffect(()=>()=>{live.current=false;try{rr.current&&rr.current.abort()}catch(e){}},[]);
+return html`<div className="fixed right-3 z-50 flex flex-col items-end gap-2 max-w-[calc(100vw-1.5rem)]" style=${{bottom:'calc(.75rem + env(safe-area-inset-bottom,0px))'}}>
+${(msg||on)&&html`<div role="status" aria-live="polite" className="ui bg-white border-[#0B2A7A] border-[3px] rounded-2xl p-3 text-base shadow-[4px_4px_0_#0B2A7A] max-w-xs">${msg||'Listening...'}${on&&html`<p className="text-sm mt-1">Say: "go to lessons", "next", "previous", "repeat", "help", "open video call", "stop listening".</p>`}</div>`}
+${canSpeak&&html`<${Btn} v="s" c=${IB} aria-pressed=${rd} onClick=${readPage}><${Ic} n=${rd?'stop':'play'}/><span>${rd?'Stop reading':'Listen to this page'}</span></${Btn}>`}
+${SR?html`<${Btn} aria-pressed=${on} onClick=${()=>{if(on)stop();else{live.current=true;setOn(true);setMsg('');begin()}}}>${on?'Stop Listening':'Voice Commands'}</${Btn}>`:html`<div className="ui bg-white border-[#0B2A7A] border-[3px] rounded-2xl p-3 text-base max-w-xs">Voice commands are not supported in this browser. Try Chrome, Edge or Safari.</div>`}</div>`}
+
+const IP={
+cam:'<rect x="2" y="6" width="13" height="12" rx="2"/><path d="M15 10l7-4v12l-7-4"/>',
+camoff:'<rect x="2" y="6" width="13" height="12" rx="2"/><path d="M15 10l7-4v12l-7-4"/><path d="M3 3l18 18"/>',
+mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>',
+micoff:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/><path d="M3 3l18 18"/>',
+end:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>',
+send:'<path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>',
+user:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+timer:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/>',
+play:'<path d="M7 4l13 8-13 8z"/>',
+pause:'<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>',
+stop:'<rect x="5" y="5" width="14" height="14" rx="2"/>',
+redo:'<path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/>',
+hand:'<path d="M9 11V5a2 2 0 0 1 4 0v6M13 10a2 2 0 0 1 4 0v2M17 11.5a2 2 0 0 1 4 0V15a7 7 0 0 1-7 7h-1a7 7 0 0 1-5.6-2.8L4 14.5a2 2 0 0 1 3-2.6l2 2"/>'};
+const Ic=({n,s=22})=>html`<svg className="ico" width=${s} height=${s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" dangerouslySetInnerHTML=${{__html:IP[n]}}/>`;
+function Hint({children}){const{set}=useContext(C);const f=useRef(true);
+useEffect(()=>{if(f.current){f.current=false;return}if(set.voice&&typeof children==='string'){const u=set.lang==='ur';speak(u?tr(children):children,u?'ur':'en')}},[children]);
+return html`<div role="status" className="hintbar"><${Ic} n="hand" s=${30}/><span>${children}</span></div>`}
+const Pt=()=>html`<span className="pt" aria-hidden="true"><${Ic} n="hand" s=${30}/></span>`;
+const IB='inline-flex items-center justify-center gap-2 ';
+
+function Timer(){const{st,up}=useContext(C);const[tot,setTot]=useState(null),[el,setEl]=useState(0),[run,setRun]=useState(false),[fin,setFin]=useState(false);
+useEffect(()=>{if(!run)return;const t=setInterval(()=>setEl(e=>e+1),1000);return()=>clearInterval(t)},[run]);
+useEffect(()=>{if(tot&&el>=tot*60&&!fin){setRun(false);setFin(true);up('hist',[...st.hist,{t:tot+'-minute session',d:today()}])}},[el]);
+const fm=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+if(!tot)return html`<div className="space-y-4"><${Hint}>Tap a time to begin your session.</${Hint}><div className="grid sm:grid-cols-3 gap-4 pad-pt">${[5,10,15].map((m,k)=>html`<${Btn} key=${m} v="s" c=${IB+'!min-h-[80px] text-2xl'+(k===1?' tap':'')} onClick=${()=>{setTot(m);setEl(0);setFin(false);setRun(true)}}><${Ic} n="timer" s=${28}/><span>${m} min</span>${k===1&&html`<${Pt}/>`}</${Btn}>`)}</div></div>`;
+return html`<div className="text-center space-y-3"><p className="text-6xl font-bold ui">${fm(Math.max(tot*60-el,0))}</p><p className="muted text-[#000000]">Elapsed ${fm(el)}</p>${fin&&html`<p role="status" className="text-xl font-bold text-[#000000]"> Session complete and saved!</p>`}
+<div className="flex flex-wrap gap-3 justify-center">${!fin&&html`<${Btn} c=${IB} onClick=${()=>setRun(!run)}><${Ic} n=${run?'pause':'play'}/><span>${run?'Pause':'Resume'}</span></${Btn}>`}<${Btn} v="s" c=${IB} onClick=${()=>{if(!fin&&el>0)up('hist',[...st.hist,{t:'Ended early ('+fm(el)+')',d:today()}]);setTot(null);setRun(false)}}><${Ic} n="stop"/><span>End Session</span></${Btn}></div></div>`}
+
+function FormSim(){const[v,sv]=useState({n:'',e:''}),[er,se]=useState({}),[ok,sok]=useState(false);
+const sub=e=>{e.preventDefault();const x={};if(v.n.trim().length<2)x.n='Please type your first name.';if(!/^\S+@\S+\.\S+$/.test(v.e))x.e='Email looks like name@example.com.';se(x);sok(!Object.keys(x).length)};
+const tg=ok?null:v.n.trim().length<2?'n':!/^\S+@\S+\.\S+$/.test(v.e)?'e':'s';
+const hm={n:'Tap the first box and type your name.',e:'Tap the second box and type your email.',s:'Now tap the Submit button.'};
+return html`<form onSubmit=${sub} noValidate className="space-y-4 ui">${tg&&html`<${Hint}>${hm[tg]}</${Hint}>`}${[['n','Your first name','text','user'],['e','Email address (practice only)','email','mail']].map(([k,lb,t,ic])=>html`<div key=${k}><label htmlFor=${k} className="flex items-center gap-2 font-bold text-lg"><${Ic} n=${ic}/><span>${lb}</span></label><input id=${k} type=${t} value=${v[k]} onChange=${e=>sv({...v,[k]:e.target.value})} className=${'w-full min-h-[48px] px-4 text-lg rounded-2xl border-2 border-[#0B2A7A]'+(tg===k?' tapfield':'')}/>${er[k]&&html`<p className="text-black underline font-semibold" role="alert">${er[k]}</p>`}</div>`)}
+<div className=${tg==='s'?'pad-pt':''}><${Btn} type="submit" c=${IB+(tg==='s'?'tap':'')}><${Ic} n="send"/><span>Submit Practice Form</span>${tg==='s'&&html`<${Pt}/>`}</${Btn}></div>${ok&&html`<p role="status" className="font-bold text-black"> Great job! Form filled correctly. Try again any time.</p>`}</form>`}
+
+function CallSim(){const[cam,sc]=useState(true),[mic,sm]=useState(true),[end,se]=useState(false),[g,sg]=useState(0);
+if(end)return html`<div className="text-center space-y-3"><p className="text-xl">Call ended. Well done!</p><${Btn} c=${IB} onClick=${()=>{se(false);sc(true);sm(true);sg(0)}}><${Ic} n="redo"/><span>Practice Again</span></${Btn}></div>`;
+const hm=['Tap the camera button to turn your camera off.','Now tap the microphone button to mute.','Tap the red button to end the call.'];
+return html`<div className="space-y-3"><${Hint}>${hm[g]}</${Hint}><div className="h-48 rounded-3xl bg-[#000000] text-white flex items-center justify-center gap-3 text-3xl font-bold ui"><${Ic} n=${cam?'cam':'camoff'} s=${36}/><span>${cam?'Your camera view':'Camera off'}</span></div><p className="ui text-center">${cam?'Camera on':'Camera off'} · ${mic?'Microphone on':'Microphone muted'}</p>
+<div className="flex flex-wrap gap-3 justify-center pad-pt"><${Btn} v="s" c=${IB+(g===0?'tap':'')} onClick=${()=>{sc(!cam);if(g===0)sg(1)}}><${Ic} n=${cam?'camoff':'cam'}/><span>${cam?'Turn Camera Off':'Turn Camera On'}</span>${g===0&&html`<${Pt}/>`}</${Btn}><${Btn} v="s" c=${IB+(g===1?'tap':'')} onClick=${()=>{sm(!mic);if(g===1)sg(2)}}><${Ic} n=${mic?'micoff':'mic'}/><span>${mic?'Mute':'Unmute'}</span>${g===1&&html`<${Pt}/>`}</${Btn}><${Btn} c=${IB+'!bg-black !text-white hover:!bg-white hover:!text-black '+(g===2?'tap':'')} onClick=${()=>se(true)}><${Ic} n="end"/><span>End Call</span>${g===2&&html`<${Pt}/>`}</${Btn}></div></div>`}
+
+function Practice(){return html`<div className="space-y-6"><h1 className="text-4xl font-bold">Practice</h1><${Badge}>Practice environment · nothing here is real</${Badge}><${Hint}>Follow the pointing hand. It shows what to tap next.</${Hint}>
+<div className="grid lg:grid-cols-2 gap-6"><${Card} c="space-y-3"><h2 className="text-2xl font-bold flex items-center gap-2"><${Ic} n="cam" s=${28}/><span>Video Call Practice</span></h2><${CallSim}/></${Card}><${Card} c="space-y-3"><h2 className="text-2xl font-bold flex items-center gap-2"><${Ic} n="mail" s=${28}/><span>Online Form Practice</span></h2><${FormSim}/></${Card}><${Card} c="lg:col-span-2 space-y-3"><h2 className="text-2xl font-bold flex items-center gap-2"><${Ic} n="timer" s=${28}/><span>Learning Session</span></h2><p className="muted text-[#000000]">Pick a length. You can stop any time.</p><${Timer}/></${Card}></div></div>`}
+
+function Safety(){const[sel,setSel]=useState([]);const t=k=>setSel(s=>s.includes(k)?s.filter(x=>x!==k):[...s,k]);
+return html`<div className="space-y-6"><h1 className="text-4xl font-bold">Safety Center</h1><div className="grid sm:grid-cols-3 gap-4">${[['','Stop','Do not act straight away.'],['','Check','Look for warning signs.'],['','Verify','Call the real company yourself.']].map(([i,a,b])=>html`<${Card} key=${a} c="text-center"><h3 className="text-2xl font-bold">${a}</h3><p>${b}</p></${Card}>`)}</div>
+<${Card} c="space-y-4"><${Badge}>Fictional sample message</${Badge}><div className="p-5 rounded-2xl bg-white border-2 border-[#0B2A7A] border border-[#0B2A7A]"><p className="ui text-sm">From: ${MSG.from}</p><p className="text-xl">${MSG.text}</p></div><p className="font-bold text-lg">Tap every warning sign you can find (links are never opened):</p>
+<div className="flex flex-wrap gap-2">${MSG.flags.map(([k])=>html`<button key=${k} aria-pressed=${sel.includes(k)} onClick=${()=>t(k)} className=${'ui min-h-[48px] px-5 rounded-2xl border-2 font-semibold '+(sel.includes(k)?'bg-[#000000] text-white border-[#0B2A7A]':'bg-white border-[#0B2A7A]')}>${k}</button>`)}</div>
+<ul className="space-y-1">${sel.map(k=>html`<li key=${k}> <b>${k}:</b> ${MSG.flags.find(f=>f[0]===k)[1]}</li>`)}</ul>${sel.length===MSG.flags.length&&html`<p role="status" className="text-xl font-bold text-[#000000]"> You found all 4 signs! This is a scam.</p>`}</${Card}></div>`}
+
+function Progress(){const{st,go}=useContext(C);const dn=Object.keys(st.done).length,p=Math.round(dn/L.length*100);const prog=L.filter(l=>!st.done[l.id]&&st.step[l.id]);
+return html`<div className="space-y-6"><h1 className="text-4xl font-bold">My Progress</h1><div className="grid md:grid-cols-3 gap-5"><${Card} c="flex flex-col items-center"><${Ring} p=${p}/><p className="font-bold mt-2">Overall</p></${Card}><${Card}><p className="text-5xl font-bold">${dn}</p><p>Lessons completed</p></${Card}><${Card}><p className="text-5xl font-bold">${st.hist.length>=3?'Steady Learner':'Getting Started'}</p><p className="muted text-[#000000]">${st.hist.length>=3?'3+ activities done!':'Complete 3 activities to earn a badge'}</p></${Card}></div>
+<${Card}><h2 className="text-2xl font-bold mb-2">In progress</h2>${prog.length?prog.map(l=>html`<div key=${l.id} className="flex justify-between items-center py-2 gap-3"><span className="text-xl">${l.t}</span><${Btn} onClick=${()=>go('lesson-'+l.id)}>Resume</${Btn}></div>`):html`<p>Nothing in progress. Start a lesson!</p>`}</${Card}>
+<${Card}><h2 className="text-2xl font-bold mb-2">Quiz scores</h2>${Object.keys(st.scores).length?Object.entries(st.scores).map(([k,[a,b]])=>html`<p key=${k} className="text-xl">${L.find(l=>l.id===k)?.t}: <b>${a}/${b}</b></p>`):html`<p>No quizzes taken yet.</p>`}</${Card}>
+<${Card}><h2 className="text-2xl font-bold mb-2">Recent activity</h2>${st.hist.length?[...st.hist].reverse().slice(0,6).map((h,i)=>html`<p key=${i} className="text-lg">${h.t} <span className="muted text-[#000000]">· ${h.d}</span></p>`):html`<p>No activity yet.</p>`}</${Card}></div>`}
+
+function Support(){const{st,up}=useContext(C);const[q,sq]=useState(''),[n,sn]=useState(''),[sent,ss]=useState(false),[err,se]=useState('');
+return html`<div className="space-y-6"><h1 className="text-4xl font-bold">Community & Support</h1><${Badge}>Sample content · no real messaging in this prototype</${Badge}>
+<div className="grid lg:grid-cols-2 gap-6"><${Card} c="space-y-3"><h2 className="text-2xl font-bold">Ask a Question</h2><label htmlFor="q" className="ui font-bold">Your question</label><textarea id="q" value=${q} onChange=${e=>sq(e.target.value)} rows="3" className="w-full p-3 text-lg rounded-2xl border-2 border-[#0B2A7A]"/><${Dictate} onText=${t=>sq(p=>p?p+' '+t:t)}/>${err&&html`<p role="alert" className="text-black underline font-semibold">${err}</p>`}<${Btn} onClick=${()=>{if(q.trim().length<5){se('Please write at least a short sentence.');ss(false);return}se('');up('q',[...st.q,q]);sq('');ss(true)}}>Save Question</${Btn}>${sent&&html`<p role="status" className="font-bold"> Saved on this device. A real mentor reply is not connected yet.</p>`}</${Card}>
+<${Card} c="space-y-2"><h2 className="text-2xl font-bold">Mentor Tips (sample)</h2><p> Take your time. There is no rush.</p><p> Practise in the Practice area first.</p><p> Ask a family member to sit with you.</p></${Card}>
+<${Card} c="space-y-2"><h2 className="text-2xl font-bold">Upcoming Sessions (sample)</h2><p> Video Calls for Beginners · Sample event</p><p> Staying Safe Online · Sample event</p></${Card}>
+<${Card} c="space-y-3"><h2 className="text-2xl font-bold">Saved Notes</h2><div className="flex gap-2"><input aria-label="New note" value=${n} onChange=${e=>sn(e.target.value)} className="ui flex-1 min-h-[48px] px-4 rounded-2xl border-2 border-[#0B2A7A]"/><${Btn} onClick=${()=>{if(n.trim()){up('notes',[...st.notes,n]);sn('')}}}>Add</${Btn}></div><${Dictate} onText=${t=>sn(p=>p?p+' '+t:t)}/>${st.notes.length?st.notes.map((x,i)=>html`<p key=${i}> ${x}</p>`):html`<p className="muted text-[#000000]">No notes yet.</p>`}</${Card}></div></div>`}
+
+function Settings(){const{st,up,set,setSet,reset}=useContext(C);const[cf,setCf]=useState(false),[diag,setDiag]=useState('');
+useEffect(()=>{const h=e=>setDiag('→ '+e.detail);addEventListener('ww-vs',h);return()=>removeEventListener('ww-vs',h)},[]);const T=({l,k})=>html`<label className="flex items-center justify-between min-h-[48px] text-xl"><span>${l}</span><input type="checkbox" checked=${!!set[k]} onChange=${e=>setSet({...set,[k]:e.target.checked})} className="w-7 h-7 accent-[#000000]"/></label>`;
+return html`<div className="space-y-6 max-w-2xl"><h1 className="text-4xl font-bold">Settings</h1>
+<${Card} c="space-y-3"><h2 className="text-2xl font-bold">Accessibility</h2><div className="flex flex-wrap gap-2 items-center"><span className="text-xl">Language:</span>${[['en','English'],['ur','اردو']].map(([k,n])=>html`<${Btn} key=${k} v=${set.lang===k?'p':'s'} onClick=${()=>{setSet({...set,lang:k,voice:k==='ur'?true:set.voice});if(k==='ur')speak('اردو منتخب ہو گئی ہے۔ آواز کی رہنمائی چالو ہے۔','ur')}}>${n}</${Btn}>`)}</div>
+<div className="flex flex-wrap gap-2 items-center"><span className="text-xl">Text size:</span>${[[18,'Normal'],[22,'Large'],[26,'Extra Large']].map(([k,n])=>html`<${Btn} key=${k} v=${set.fs===k?'p':'s'} onClick=${()=>setSet({...set,fs:k})}>${n}</${Btn}>`)}</div>
+<${T} l="High contrast" k="hc"/><${T} l="Voice guidance (read steps automatically)" k="voice"/>${set.lang==='ur'&&html`<${Btn} v="s" onClick=${()=>{setDiag('Trying… ');speak('یہ اردو آواز کی جانچ ہے۔ اگر آپ مجھے سن رہے ہیں تو سب ٹھیک ہے۔','ur')}}>Test Urdu voice</${Btn}><p role="status" dir="ltr" className="ui text-base">Voices on device: ${VOI.length} · Urdu voice: ${hasUr()?'yes':'no (online voice used)'} ${diag}</p>`}${set.lang==='ur'&&!hasUr()&&html`<p role="status" className="ui text-base">No Urdu voice is installed on this device, so the page uses an online Urdu voice. This needs an internet connection.</p>`}</${Card}>
+<${Card} c="space-y-3"><h2 className="text-2xl font-bold">Daily Reminder</h2><label htmlFor="rt" className="ui font-bold">Preferred time</label><input id="rt" type="time" value=${st.rem} onChange=${e=>up('rem',e.target.value)} className="ui min-h-[48px] px-4 text-xl rounded-2xl border-2 border-[#0B2A7A]"/><p>${st.rem?`Your preferred time is ${st.rem}.`:'No time chosen.'} <span className="muted text-[#000000]">Preference only, as background notifications are not active in this prototype.</span></p></${Card}>
+<${Card} c="space-y-3"><h2 className="text-2xl font-bold">Reset</h2>${cf?html`<div role="alertdialog" className="space-y-3"><p className="text-xl font-bold">Erase all progress, scores and notes?</p><div className="flex gap-3"><${Btn} className="!bg-black" onClick=${()=>{reset();setCf(false)}}>Yes, reset</${Btn}><${Btn} v="s" onClick=${()=>setCf(false)}>Cancel</${Btn}></div></div>`:html`<${Btn} v="s" onClick=${()=>setCf(true)}>Reset Progress</${Btn}>`}</${Card}></div>`}
+
+function Landing({go}){return html`<div className="max-w-5xl mx-auto p-3 sm:p-6 space-y-8 sm:space-y-10"><header className="flex flex-wrap justify-between items-center gap-3"><b className="text-3xl"> WisdomWay</b><${Btn} v="s" onClick=${()=>go('lessons')}>Explore Lessons<${Arw}/></${Btn}></header>
+<${Card} c="!rounded-[2.5rem] !bg-white text-center py-14 space-y-5"><div className="shapes land" aria-hidden="true"><i className="sh c1"></i><i className="sh c2"></i><i className="sh s1"></i><i className="sh s2"></i><i className="sh l1"></i><i className="sh l2"></i><i className="sh l3"></i><i className="sh l4"></i><i className="sh l5"></i><i className="sh l6"></i><i className="sh l7"></i><i className="sh l8"></i><i className="sh l9"></i></div><h1 className="text-4xl md:text-5xl font-bold"><span className="block leading-none mb-2" style=${{fontSize:'clamp(2.6rem,10vw,7rem)'}}>Technology</span>Should Feel Simple.</h1><p className="text-2xl max-w-2xl mx-auto">Learn digital skills safely, one clear step at a time, at your own pace.</p><div className="flex flex-wrap gap-3 justify-center"><${Btn} onClick=${()=>go('home')}>Start Learning<${Arw}/></${Btn}><${Btn} v="s" onClick=${()=>go('lessons')}>Explore Lessons<${Arw}/></${Btn}></div></${Card}>
+<div className="grid md:grid-cols-3 gap-5">${[['','Learn Step by Step','One instruction at a time.'],['','Practise Safely','Simulations never touch real accounts.'],['','Build Confidence','Quizzes and progress that cheer you on.']].map(([i,a,b])=>html`<${Card} key=${a}><h3 className="text-2xl font-bold">${a}</h3><p>${b}</p></${Card}>`)}</div>
+<div className="grid sm:grid-cols-2 gap-5">${L.slice(0,2).map(l=>html`<${LessonCard} key=${l.id} l=${l}/>`)}</div></div>`}
+
+function App(){
+const[st,setSt]=useLS('ww_state',{done:{},step:{},scores:{},hist:[],plan:{},notes:[],q:[],rem:''});
+const[set,setSet]=useLS('ww_set',{lang:'en',fs:18,hc:false,voice:false});
+const[route,setRoute]=useState(()=>location.hash.slice(1)||'welcome');
+useEffect(()=>{const h=()=>setRoute(location.hash.slice(1)||'welcome');addEventListener('hashchange',h);return()=>removeEventListener('hashchange',h)},[]);
+useEffect(()=>{document.documentElement.style.fontSize=set.fs+'px';document.documentElement.style.setProperty('--fs',set.fs+'px');document.documentElement.classList.toggle('hc',!!set.hc);document.documentElement.lang=set.lang;document.documentElement.dir=set.lang==='ur'?'rtl':'ltr';document.title=set.lang==='ur'?'وزڈم وے':'WisdomWay – Learn at Your Pace'},[set]);
+useTranslate(set.lang);
+const firstR=useRef(true);
+useEffect(()=>{if(firstR.current){firstR.current=false;return}const k=route.split('-')[0];if(set.voice&&set.lang==='ur'&&UR[k])speak('آپ '+UR[k]+' کے صفحے پر ہیں','ur')},[route]);
+const go=r=>{location.hash=r;window.scrollTo(0,0)};
+const up=(k,v)=>setSt(s=>({...s,[k]:v}));
+const reset=()=>setSt({done:{},step:{},scores:{},hist:[],plan:{},notes:[],q:[],rem:''});
+const ctx={st,up,go,set,setSet,reset};const key=route.split('-')[0];
+let page;if(route==='welcome')return html`<${C.Provider} value=${ctx}><${Landing} go=${go}/></${C.Provider}>`;
+page=route.startsWith('lesson-')?html`<${Lesson} key=${route} id=${route.slice(7)}/>`:{home:html`<${Home}/>`,lessons:html`<${Lessons}/>`,practice:html`<${Practice}/>`,safety:html`<${Safety}/>`,progress:html`<${Progress}/>`,support:html`<${Support}/>`,settings:html`<${Settings}/>`}[route]||html`<${Card}><h1 className="text-3xl font-bold">Page not found</h1><${Btn} className="mt-4" onClick=${()=>go('home')}>Go Home</${Btn}></${Card}>`;
+const act=key==='lesson'?'lessons':key;
+return html`<${C.Provider} value=${ctx}><div className="min-h-screen lg:flex gap-6 p-3 sm:p-5 lg:p-6">
+<nav aria-label="Main" className="ui lg:w-72 shrink-0 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:overflow-y-auto bg-[#000000] text-white rounded-3xl p-3 lg:p-4 mb-4 lg:mb-0"><button onClick=${()=>go('welcome')} className="text-2xl font-bold px-3 py-3 w-full text-left"> WisdomWay</button>
+<ul className="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible pb-1">${NAV.map(([k,i,n])=>html`<li key=${k}><button onClick=${()=>go(k)} aria-current=${act===k?'page':undefined} className=${'min-h-[48px] w-full whitespace-nowrap text-left px-4 rounded-2xl text-lg font-semibold '+(act===k?'bg-white text-black':'hover:bg-white hover:text-black')}>${set.lang==='ur'&&UR[k]?UR[k]:n}</button></li>`)}</ul></nav>
+<main className="flex-1 min-w-0 w-full max-w-[1200px] mx-auto pb-28">${page}</main><${VoiceCmd}/></div></${C.Provider}>`}
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+</script></body></html>

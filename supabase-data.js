@@ -148,14 +148,17 @@
     }));
   }
 
-  async function saveProfile(userId, settings) {
+  async function saveProfile(userId, settings, profile = {}) {
     const client = getClient();
     if (!client || !userId) return;
-    return updateOrInsert(TABLES.profiles, { id: userId }, {
+    const values = {
       preferred_language: settings.lang,
       text_size: settings.fs,
       voice_enabled: !!settings.voice
-    }, 'profile save');
+    };
+    const fullName = typeof profile.fullName === 'string' ? profile.fullName.trim() : '';
+    if (fullName) values.full_name = fullName;
+    return updateOrInsert(TABLES.profiles, { id: userId }, values, 'profile save');
   }
 
   async function saveReminder(userId, reminderTime) {

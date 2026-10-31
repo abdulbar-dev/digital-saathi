@@ -4,7 +4,7 @@
  */
 (function () {
   const config = window.DIGITAL_SAATHI_CONFIG || {};
-  const url = config.supabaseUrl || '';
+  const url = (config.supabaseUrl || '').replace(/\/rest\/v1\/?$/, '');
   const key = config.supabasePublishableKey || '';
   const configured = /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(url)
     && key.startsWith('sb_publishable_');

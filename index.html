@@ -514,8 +514,8 @@ return html`<${Card} c="space-y-4"><p className="ui font-bold text-[#000000]">Qu
 ${q.o.map((o,k)=>html`<button key=${k} onClick=${()=>pick(k)} className=${'ui w-full text-left min-h-[56px] px-5 rounded-2xl border-2 text-xl font-semibold '+(a===null?'bg-white border-[#0B2A7A] hover:bg-black hover:text-white':k===q.a?'bg-black text-white border-[#0B2A7A]':k===a?'bg-white border-[#0B2A7A] border-dashed line-through':'bg-white border-[#0B2A7A]')}>${k+1}. ${o}</button>`)}
 ${a!==null&&html`<div role="status" className="p-4 rounded-2xl bg-white border-2 border-[#0B2A7A] text-xl"><b>${a===q.a?' Correct! ':' Not quite. '}</b>${q.e}</div><${Btn} onClick=${next}>${i+1<questions.length?'Next Question':'See Score'}</${Btn}>`}</${Card}>`}
 
-function Lesson({id}){const{st,up,go,set}=useContext(C);const l=L.find(x=>x.id===id);const[i,setI]=useState(Math.min(st.step[id]||0,(l?.steps.length||1)-1)),[help,setHelp]=useState(false),[quiz,setQuiz]=useState(false);
-const steps=Array.isArray(l?.steps)?l.steps:[],s=steps[i],ur=!!(s&&set.lang==='ur'&&s.ur),txt=s?(ur?s.ur:s.en):'',fallback=!!(s&&set.lang==='ur'&&!s.ur),n=steps.length;
+function Lesson({id}){const{st,up,go,set}=useContext(C);const l=L.find(x=>x.id===id);const progress=st?.step&&typeof st.step==='object'?st.step:{};const[i,setI]=useState(Math.min(Number(progress[id])||0,(l?.steps.length||1)-1)),[help,setHelp]=useState(false),[quiz,setQuiz]=useState(false);
+const steps=Array.isArray(l?.steps)?l.steps:[],s=steps[i],ur=!!(s&&set.lang==='ur'&&s.ur),txt=s?(ur?s.ur:s.en):'',fallback=!!(s&&set.lang==='ur'&&!s.ur),n=steps.length,sceneKeys=SV[l?.id]||[];
 useEffect(()=>{if(!s||!set.voice||ur)return;speak(txt);return()=>{stopSpeech()}},[i,set.lang,set.voice,ur,txt,s]);
 const ref=useRef();useEffect(()=>{const h=e=>ref.current&&ref.current(e.detail);addEventListener('ww-cmd',h);return()=>removeEventListener('ww-cmd',h)},[]);
 const mv=d=>{if(!l||!n)return;const k=i+d;if(k>=n){up('done',{...st.done,[id]:true});up('step',{...st.step,[id]:n});up('hist',[...st.hist,{t:l.t,d:today()}]);setQuiz(true);return}setI(Math.max(0,k));setHelp(false);up('step',{...st.step,[id]:Math.max(0,k)})};
@@ -526,7 +526,7 @@ if(quiz)return html`<div className="space-y-4"><h1 className="text-3xl font-bold
 return html`<div className="space-y-5 max-w-3xl"><button className="ui underline text-lg" onClick=${()=>go('lessons')}>← Back to lessons</button><h1 className="text-3xl font-bold">${l.t}</h1>
 <div><p className="ui font-bold mb-1">Step ${i+1} of ${n}</p><${Bar} p=${Math.round((i+1)/n*100)}/></div>
 <${Card} c="space-y-4"><p dir=${ur?'rtl':'ltr'} className="text-3xl leading-relaxed font-semibold">${txt}</p>${fallback&&html`<p className="ui text-sm text-[#000000]">Urdu is not available for this step yet, showing English.</p>`}
-<${Scene} k=${SV[l.id][i]} label=${txt}/>
+<${Scene} k=${sceneKeys[i]} label=${txt}/>
 ${help&&html`<div role="status" className="p-4 rounded-2xl bg-white border-2 border-[#0B2A7A] border-2 border-[#0B2A7A] text-xl"><b>Simpler:</b> ${s.h}<ul className="ui text-base mt-2">${Object.entries(G).map(([k,v])=>html`<li key=${k}><b>${k}:</b> ${v}</li>`)}</ul></div>`}
 ${!ur&&html`<div className="flex flex-wrap gap-3"><${Btn} v="s" onClick=${()=>speak(txt)} disabled=${!canSpeak}> Read Aloud</${Btn}><${Btn} v="s" onClick=${()=>speak(txt)} disabled=${!canSpeak}> Repeat Instructions</${Btn}><${Btn} v="s" onClick=${()=>{const n=!help;setHelp(n);if(n&&set.voice)speak(s.h)}}> Ask for Help</${Btn}></div>${!canSpeak&&html`<p className="ui text-sm">Read Aloud is not supported in this browser.</p>`}</>`}</${Card}>
 <div className="flex flex-wrap justify-between gap-3"><${Btn} v="s" disabled=${i===0} onClick=${()=>mv(-1)}>← Previous Step</${Btn}><${Btn} onClick=${()=>mv(1)}>${i+1===n?'Finish Lesson ✓':'Next Step →'}</${Btn}></div></div>`}

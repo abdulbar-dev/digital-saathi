@@ -479,7 +479,7 @@ walk2:()=>sWrap(sPerson(110,78,'#fff')+`<path d="M92 98q-8 30 18 30t18-30" fill=
 };
 const SV={call:['call1','call2','call3'],scam:['scam1','scam2','scam3'],pass:['pass1','pass2','pass3'],phone:['phone1','phone2','phone3'],bank:['bank1','bank2'],walk:['walk1','walk2']};
 const Scene=({k,label})=>{const scene=SCENES[k];return scene?html`<div className="scene" role="img" aria-label=${label} dangerouslySetInnerHTML=${{__html:scene()}}/>`:html`<div className="scene" role="img" aria-label=${label}><p className="ui">Illustration unavailable.</p></div>`};
-function LessonCard({l}){const{st,go}=useContext(C);const done=st.done[l.id],cur=st.step[l.id]||0,p=done?100:Math.round(cur/l.steps.length*100);
+function LessonCard({l}){const{st,go}=useContext(C);const steps=Array.isArray(l?.steps)?l.steps:[],done=!!st.done[l.id],cur=Number(st.step[l.id])||0,p=done?100:steps.length?Math.round(cur/steps.length*100):0;
 return html`<${Card} c="flex flex-col gap-3"><div className="flex flex-wrap items-center justify-between gap-2"><span className="ui w-14 shrink-0 h-14 rounded-2xl bg-black text-white flex items-center justify-center text-xl font-bold" aria-hidden="true">${l.ic}</span><${Badge}>${l.lv} · ${l.min} min</${Badge}></div>
 <h3 className="text-2xl font-bold">${l.t}</h3><p className="muted text-[#000000]">${l.d}</p><${Bar} p=${p}/>
 <${Btn} onClick=${()=>go('lesson-'+l.id)}>${done?'Review':cur>0?'Resume':'Start'}<${Arw}/></${Btn}></${Card}>`}
@@ -520,8 +520,7 @@ useEffect(()=>{if(!s||!set.voice||ur)return;speak(txt);return()=>{stopSpeech()}}
 const ref=useRef();useEffect(()=>{const h=e=>ref.current&&ref.current(e.detail);addEventListener('ww-cmd',h);return()=>removeEventListener('ww-cmd',h)},[]);
 const mv=d=>{if(!l||!n)return;const k=i+d;if(k>=n){up('done',{...st.done,[id]:true});up('step',{...st.step,[id]:n});up('hist',[...st.hist,{t:l.t,d:today()}]);setQuiz(true);return}setI(Math.max(0,k));setHelp(false);up('step',{...st.step,[id]:Math.max(0,k)})};
 ref.current=c=>{if(quiz)return;if(c==='next')mv(1);else if(c==='prev'&&i>0)mv(-1);else if(c==='read'&&!ur)speak(txt);else if(c==='help')setHelp(h=>!h)};
-if(!l)return html`<${Card}><h1 className="text-3xl font-bold">Lesson not found</h1><p>We could not load that tutorial.</p><${Btn} className="mt-4" onClick=${()=>go('lessons')}>Back to Lessons</${Btn}></${Card}>`;
-if(!n||!s)return html`<${Card}><h1 className="text-3xl font-bold">Tutorial unavailable</h1><p>This tutorial has no learning steps yet.</p><${Btn} className="mt-4" onClick=${()=>go('lessons')}>Back to Lessons</${Btn}></${Card}>`;
+if(!l||!n||!s)return html`<${Home}/>`;
 if(quiz)return html`<div className="space-y-4"><h1 className="text-3xl font-bold"> Lesson complete: ${l.t}</h1><${Quiz} l=${l} done=${()=>go('home')}/></div>`;
 return html`<div className="space-y-5 max-w-3xl"><button className="ui underline text-lg" onClick=${()=>go('lessons')}>← Back to lessons</button><h1 className="text-3xl font-bold">${l.t}</h1>
 <div><p className="ui font-bold mb-1">Step ${i+1} of ${n}</p><${Bar} p=${Math.round((i+1)/n*100)}/></div>
@@ -645,7 +644,7 @@ function Landing({go}){return html`<div className="max-w-5xl mx-auto p-3 sm:p-6 
 <div className="grid sm:grid-cols-2 gap-5">${L.slice(0,2).map(l=>html`<${LessonCard} key=${l.id} l=${l}/>`)}</div></div>`}
 
 const APP_ROUTES=new Set(['welcome','login','signup','home','lessons','practice','safety','progress','support','settings']);
-const normalizeRoute=value=>{let route=String(value||'').replace(/^#/,'').split('?')[0].replace(/^\/+|\/+$/g,'').trim().toLowerCase();if(!route)return'welcome';if(route==='dashboard')return'home';const alias=route.match(/^(?:course|tutorial|lesson)[-_](.+)$/);if(alias)route='lesson-'+alias[1];if(route.startsWith('lesson-'))return L.some(l=>l.id===route.slice(7))?route:'home';return APP_ROUTES.has(route)?route:'home'};
+const normalizeRoute=value=>{let route=String(value||'').replace(/^#/,'').split('?')[0].replace(/^\/+|\/+$/g,'').trim().toLowerCase();if(!route)return'welcome';if(route==='dashboard')return'home';const alias=route.match(/^(?:course|tutorial|lesson)[-_\/](.+)$/);if(alias)route='lesson-'+alias[1];if(L.some(l=>l.id===route))route='lesson-'+route;if(route.startsWith('lesson-'))return L.some(l=>l.id===route.slice(7))?route:'home';return APP_ROUTES.has(route)?route:'home'};
 class ErrorBoundary extends React.Component{constructor(p){super(p);this.state={error:null}}static getDerivedStateFromError(error){return{error}}componentDidCatch(error,info){console.error('[Digital Saathi] Page render failed',error,info)}render(){if(this.state.error)return html`<div className="min-h-screen flex items-center justify-center p-6"><${Card} c="max-w-2xl space-y-4"><h1 className="text-3xl font-bold">This page could not load</h1><p>Something went wrong while opening this part of Digital Saathi.</p><${Btn} onClick=${()=>{this.setState({error:null});location.hash='home';location.reload()}}>Return to Dashboard</${Btn}></${Card}></div>`;return this.props.children}}
 function App(){
 const[st,setSt]=useLS('ww_state',{done:{},step:{},scores:{},hist:[],plan:{},notes:[],q:[],rem:''});

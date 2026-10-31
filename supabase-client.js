@@ -1,12 +1,13 @@
 /* Browser-safe Supabase configuration.
- * Set these values in this file or define window.DIGITAL_SAATHI_CONFIG before it loads.
- * Only the public publishable/anon key belongs here. Never use a service-role key.
+ * Define window.DIGITAL_SAATHI_CONFIG before this file loads.
+ * Only the public sb_publishable_ key belongs here. Never use a service-role key.
  */
 (function () {
   const config = window.DIGITAL_SAATHI_CONFIG || {};
-  const url = config.supabaseUrl || 'https://YOUR_PROJECT.supabase.co';
-  const key = config.supabaseAnonKey || 'YOUR_PUBLIC_PUBLISHABLE_OR_ANON_KEY';
-  const configured = !url.includes('YOUR_PROJECT') && !key.includes('YOUR_PUBLIC');
+  const url = config.supabaseUrl || '';
+  const key = config.supabasePublishableKey || '';
+  const configured = /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(url)
+    && key.startsWith('sb_publishable_');
 
   window.DigitalSaathiSupabase = {
     configured,

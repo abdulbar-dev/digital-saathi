@@ -341,15 +341,18 @@ let VOI=[];
 const speechAvailable=()=>typeof window!=='undefined'&&typeof window.speechSynthesis!=='undefined'&&typeof window.SpeechSynthesisUtterance!=='undefined';
 const notifySpeech=(message)=>{try{window.dispatchEvent(new CustomEvent('ww-vs',{detail:message}))}catch(e){}};
 const notifySpeechState=(state)=>{try{window.dispatchEvent(new CustomEvent('ww-speech-state',{detail:state}))}catch(e){}};
-const loadV=()=>{try{VOI=speechAvailable()?speechSynthesis.getVoices()||[]:[]}catch(e){VOI=[]}try{window.dispatchEvent(new CustomEvent('ww-voices-changed'))}catch(e){}};
+let pendingUrduSpeech=null;
+const loadV=()=>{try{VOI=speechAvailable()?speechSynthesis.getVoices()||[]:[]}catch(e){VOI=[]}try{window.dispatchEvent(new CustomEvent('ww-voices-changed'))}catch(e){};tryPendingUrduSpeech()};
 if(speechAvailable()){loadV();speechSynthesis.addEventListener('voiceschanged',loadV)}
 const urVoice=()=>VOI.find(v=>String(v.lang).toLowerCase()==='ur-pk')||VOI.find(v=>String(v.lang).toLowerCase()==='ur-in')||VOI.find(v=>/^ur(?:-|$)/i.test(v.lang))||null;
 const englishVoice=()=>VOI.find(v=>String(v.lang).toLowerCase()==='en-us')||VOI.find(v=>/^en(?:-|$)/i.test(v.lang))||null;
 const hasUr=()=>!!urVoice();
 const pickV=lang=>lang==='ur'?urVoice():englishVoice();
+function clearPendingUrduSpeech(){if(pendingUrduSpeech?.timer)clearTimeout(pendingUrduSpeech.timer);pendingUrduSpeech=null}
+function tryPendingUrduSpeech(){if(!pendingUrduSpeech)return;const voice=urVoice();if(voice){const p=pendingUrduSpeech;clearPendingUrduSpeech();localSpeak(p.parts,'ur',p.end);return}if(Date.now()>=pendingUrduSpeech.deadline){const p=pendingUrduSpeech;clearPendingUrduSpeech();notifySpeech('No Urdu voice is installed in this browser. Install an Urdu-Pakistani or Urdu-Indian system voice, then reload the page. اس براؤزر میں اردو آواز دستیاب نہیں۔');p.end&&p.end();return}pendingUrduSpeech.timer=setTimeout(tryPendingUrduSpeech,100)}
 const AQ={id:0,parts:[],index:0,lang:'en',end:null,active:false};
-const finishSpeech=()=>{AQ.active=false;AQ.parts=[];AQ.index=0;AQ.end=null;notifySpeechState('idle')};
-function stopSpeech(){AQ.id++;AQ.active=false;AQ.parts=[];AQ.index=0;AQ.end=null;try{speechSynthesis.cancel()}catch(e){}notifySpeechState('idle')}
+const finishSpeech=()=>{clearPendingUrduSpeech();AQ.active=false;AQ.parts=[];AQ.index=0;AQ.end=null;notifySpeechState('idle')};
+function stopSpeech(){clearPendingUrduSpeech();AQ.id++;AQ.active=false;AQ.parts=[];AQ.index=0;AQ.end=null;try{speechSynthesis.cancel()}catch(e){}notifySpeechState('idle')}
 function pauseSpeech(){if(!speechAvailable()||!AQ.active)return;try{speechSynthesis.pause();notifySpeechState('paused')}catch(e){}}
 function resumeSpeech(){if(!speechAvailable()||!AQ.active)return;try{speechSynthesis.resume();notifySpeechState('playing')}catch(e){}}
 const isTalking=()=>{try{return AQ.active&&speechAvailable()&&(speechSynthesis.speaking||speechSynthesis.pending||speechSynthesis.paused)}catch(e){return false}};
@@ -358,8 +361,8 @@ const text=AQ.parts[AQ.index++],voice=pickV(AQ.lang),u=new SpeechSynthesisUttera
 u.onstart=()=>notifySpeechState('playing');u.onend=()=>playNextSpeech(id);u.onerror=e=>{if(id!==AQ.id)return;const done=AQ.end;notifySpeech('Speech playback failed ('+(e&&e.error||'unknown')+').');finishSpeech();done&&done()};
 try{speechSynthesis.speak(u)}catch(e){notifySpeech('Speech is not available in this browser.');finishSpeech();AQ.end&&AQ.end()}}
 function localSpeak(parts,lang,end){if(!speechAvailable()){notifySpeech('Speech is not available in this browser. اس براؤزر میں آواز دستیاب نہیں۔');end&&end();return}
-const voice=pickV(lang);if(lang==='ur'&&!voice){notifySpeech('No Urdu voice is installed in this browser. Install an Urdu-Pakistani or Urdu-Indian system voice, then reload the page. اس براؤزر میں اردو آواز دستیاب نہیں۔');end&&end();return}
-stopSpeech();AQ.parts=parts;AQ.lang=lang;AQ.end=end;AQ.active=true;AQ.id++;playNextSpeech(AQ.id)}
+stopSpeech();const voice=pickV(lang);if(lang==='ur'&&!voice){if(!VOI.length){pendingUrduSpeech={parts,end,deadline:Date.now()+3000,timer:null};notifySpeech('Waiting for the Urdu voice to load… اردو آواز لوڈ ہو رہی ہے۔');tryPendingUrduSpeech()}else{notifySpeech('No Urdu voice is installed in this browser. Install an Urdu-Pakistani or Urdu-Indian system voice, then reload the page. اس براؤزر میں اردو آواز دستیاب نہیں۔');end&&end()}return}
+AQ.parts=parts;AQ.lang=lang;AQ.end=end;AQ.active=true;AQ.id++;playNextSpeech(AQ.id)}
 function speakList(arr,lang,end){const parts=[];arr.forEach(t=>String(t).split(/[.!?۔؟\n]+/).forEach(x=>{x=x.trim();while(x.length>170){let k=x.lastIndexOf(' ',170);if(k<40)k=170;parts.push(x.slice(0,k));x=x.slice(k).trim()}if(x)parts.push(x)}));if(!parts.length){end&&end();return}localSpeak(parts,lang,end)}
 function speak(t,lang){speakList([t],lang)}
 const SR=typeof window!=='undefined'&&(window.SpeechRecognition||window.webkitSpeechRecognition);

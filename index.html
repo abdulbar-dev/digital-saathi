@@ -272,6 +272,80 @@ input.tapfield{animation:ringf 1.4s ease-out infinite}
 @keyframes pls{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
 @media(prefers-reduced-motion:reduce){.scene .pulse,.scene .bobh{animation:none}}
 @media(max-width:480px){.scene{padding:.25rem}.scene svg{max-height:42vh}}
+
+/* ===== responsive v5: layout guardrails ===== */
+*,*::before,*::after{box-sizing:border-box}
+html,body,#root{width:100%;min-width:0}
+body{overflow-x:hidden}
+.app-shell,.app-main,.app-nav,.auth-page,.auth-content,.auth-card{min-width:0}
+.app-shell{align-items:flex-start}
+.app-nav{flex:0 0 18rem;min-width:0}
+.app-main{overflow:visible}
+.app-main>*,.app-main .space-y-6,.app-main .space-y-5,.app-main .space-y-4,.app-main .space-y-3{min-width:0;max-width:100%}
+.app-main .grid{min-width:0}
+.app-main .grid>*{min-width:0}
+.app-main .flex>*{min-width:0}
+.app-main :is(h1,h2,h3,label,button,.ui){max-width:100%;overflow-wrap:normal;word-break:normal;hyphens:manual}
+.app-main :is(p,li,span){max-width:100%;overflow-wrap:anywhere;word-break:normal}
+.app-main :is(h1,h2,h3){text-wrap:balance}
+.app-main button span,.app-nav button span,.hintbar span{overflow-wrap:normal}
+.app-main button.ui{min-width:0;max-width:100%;white-space:normal;text-wrap:balance}
+.app-main input,.app-main textarea,.app-main select{min-width:0;max-width:100%}
+.app-main .card{max-width:100%;overflow:visible}
+.app-main .card>h1,.app-main .card>h2,.app-main .card>h3{max-width:100%}
+.app-nav button{min-width:0;max-width:100%;overflow-wrap:normal;word-break:normal}
+.app-nav>button{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-nav li{min-width:0}
+.auth-content{width:min(100%,28rem)}
+.auth-card{width:100%;min-width:0}
+.auth-card h1,.auth-card p{max-width:100%;overflow-wrap:normal;word-break:normal}
+.auth-card h1{font-size:clamp(1.65rem,6vw,2.25rem);line-height:1.2;text-wrap:balance}
+.auth-card form>div{min-width:0}
+.auth-card input{width:100%;min-width:0;max-width:100%}
+.auth-card button.ui{width:100%;min-width:0;white-space:normal;text-wrap:balance}
+.auth-page>button,.auth-page p,.auth-page label{max-width:100%;overflow-wrap:normal}
+.hintbar{min-width:0;max-width:100%}
+.hintbar span{min-width:0;overflow-wrap:normal;word-break:normal}
+html[dir=rtl] .app-nav button{text-align:right}
+html[dir=rtl] .fixed.z-50{right:auto;left:.75rem;align-items:flex-start}
+
+@media(max-width:1023px){
+ .app-shell{display:flex;flex-direction:column;gap:1rem}
+ .app-nav{width:100%;flex:0 0 auto;margin-bottom:0}
+ .app-nav ul{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,8.5rem),1fr));overflow:visible!important}
+ .app-nav ul li{min-width:0}
+ .app-nav ul button{width:100%!important;white-space:normal;overflow-wrap:normal;text-align:center;padding-inline:.6rem}
+ .app-main{width:100%;max-width:none;padding-bottom:7rem}
+}
+
+@media(max-width:640px){
+ .app-shell{padding:.75rem!important}
+ .app-nav{top:.5rem}
+ .app-main{padding-top:.25rem}
+ .app-main .grid.lg\:grid-cols-2,.app-main .grid.lg\:grid-cols-3{grid-template-columns:minmax(0,1fr)}
+ .app-main .flex.justify-between{align-items:stretch}
+ .app-main .flex.justify-between>button.ui{width:100%;flex:1 1 100%}
+ .auth-page{padding:.75rem!important}
+ .auth-content{width:100%}
+ .auth-page .text-3xl{font-size:clamp(1.5rem,8vw,2rem)}
+ .auth-card{padding:1rem!important;border-radius:1.5rem!important;box-shadow:5px 5px 0 #0B2A7A}
+ .auth-card h1{font-size:clamp(1.5rem,7vw,2rem)}
+ .auth-card p{font-size:clamp(.95rem,4.2vw,1.1rem)}
+ .app-main .scene{max-width:100%}
+ .app-main .hintbar{align-items:flex-start;padding:.65rem .75rem}
+ .app-main .hintbar svg{flex:0 0 auto;margin-top:.15rem}
+}
+
+@media(max-width:360px){
+ .app-shell{padding:.6rem!important}
+ .app-nav{padding:.35rem!important}
+ .app-nav>button{font-size:1.1rem!important;padding-inline:.5rem!important}
+ .app-nav ul button{padding-inline:.65rem!important;font-size:.95rem!important}
+ .auth-page{padding:.5rem!important}
+ .auth-card{padding:.85rem!important}
+ .app-main .card{padding-left:.9rem!important;padding-right:.9rem!important}
+ .app-main button.ui{padding-inline:.75rem}
+}
 </style></head>
 <body><svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6"/></filter></svg><div id="root"></div>
 <script>
@@ -560,7 +634,7 @@ return html`<div className="space-y-6 max-w-2xl"><h1 className="text-4xl font-bo
 function AuthPanel(){const{auth,go}=useContext(C);if(auth.user)return html`<${Card} c="space-y-3"><h2 className="text-2xl font-bold">Your account</h2><p className="ui">${auth.profileName||auth.user.user_metadata?.full_name||auth.user.email}</p><p className="ui text-base">Signed in as ${auth.user.email}. Your progress can sync across devices. Local saved data remains available as a fallback.</p><div className="flex flex-wrap gap-3"><${Btn} onClick=${()=>go('home')}>Open dashboard</${Btn}><${Btn} v="s" onClick=${auth.signOut} disabled=${auth.busy}>Sign out</${Btn}></div></${Card}>`;
 return html`<${Card} c="space-y-3"><h2 className="text-2xl font-bold">Save your learning progress</h2><div className="flex flex-wrap gap-3"><${Btn} onClick=${()=>go('login')}>Log in</${Btn}><${Btn} v="s" onClick=${()=>go('signup')}>Create an account</${Btn}></div>${auth.error&&html`<p role="alert" className="ui font-semibold">${auth.error}</p>`}${auth.message&&html`<p role="status" className="ui font-semibold">${auth.message}</p>`}</${Card}>`}
 
-function AuthPage({mode}){const{auth,go}=useContext(C);const[fullName,setFullName]=useState(''),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[confirm,setConfirm]=useState(''),[error,setError]=useState('');const signup=mode==='signup';const submit=e=>{e.preventDefault();setError('');if(signup&&fullName.trim().length<2)return setError('Please enter your full name.');if(!email.trim())return setError('Please enter your email address.');if(password.length<6)return setError('Password must be at least 6 characters.');if(signup&&password!==confirm)return setError('Passwords do not match.');signup?auth.signUp(fullName,email,password):auth.signIn(email,password)};return html`<div className="min-h-screen flex items-center justify-center px-4 py-8 sm:px-6"><div className="w-full max-w-md"><div className="text-center mb-8"><button className="text-3xl font-bold tracking-tight" onClick=${()=>go('welcome')}>Digital Saathi</button><p className="mt-2 text-lg text-[#0B2A7A]">Learn digital skills safely, one step at a time.</p></div><div className="bg-white border-[3px] border-[#0B2A7A] rounded-[2rem] p-5 sm:p-8 shadow-[8px_8px_0_#0B2A7A]"><div className="mb-6"><h1 className="text-3xl sm:text-4xl font-bold">${signup?'Create your account':'Welcome back'}</h1><p className="mt-2 text-base sm:text-lg">${signup?'Create an account to sync your progress.':'Log in to continue learning.'}</p></div>${DigitalSaathiSupabase.configured?html`<form className="space-y-4" onSubmit=${submit} noValidate>${signup&&html`<div><label className="block font-bold mb-1" htmlFor="auth-full-name">Full name</label><input id="auth-full-name" type="text" autoComplete="name" required value=${fullName} onChange=${e=>setFullName(e.target.value)} className="w-full min-h-[50px] px-4 text-lg rounded-xl border-2 border-[#0B2A7A] focus:outline-none focus:ring-4 focus:ring-[#C9D7FF]"/></div>`}<div><label className="block font-bold mb-1" htmlFor="auth-email">Email</label><input id="auth-email" type="email" autoComplete="email" required value=${email} onChange=${e=>setEmail(e.target.value)} className="w-full min-h-[50px] px-4 text-lg rounded-xl border-2 border-[#0B2A7A] focus:outline-none focus:ring-4 focus:ring-[#C9D7FF]"/></div><div><label className="block font-bold mb-1" htmlFor="auth-password">Password</label><input id="auth-password" type="password" autoComplete=${signup?'new-password':'current-password'} required minLength="6" value=${password} onChange=${e=>setPassword(e.target.value)} className="w-full min-h-[50px] px-4 text-lg rounded-xl border-2 border-[#0B2A7A] focus:outline-none focus:ring-4 focus:ring-[#C9D7FF]"/></div>${signup&&html`<div><label className="block font-bold mb-1" htmlFor="auth-confirm-password">Confirm password</label><input id="auth-confirm-password" type="password" autoComplete="new-password" required minLength="6" value=${confirm} onChange=${e=>setConfirm(e.target.value)} className="w-full min-h-[50px] px-4 text-lg rounded-xl border-2 border-[#0B2A7A] focus:outline-none focus:ring-4 focus:ring-[#C9D7FF]"/></div>`}${error&&html`<p role="alert" className="text-[#B00020] font-semibold">${error}</p>`}${auth.error&&html`<p role="alert" className="text-[#B00020] font-semibold">${auth.error}</p>`}${auth.message&&html`<p role="status" className="text-[#14532D] font-semibold">${auth.message}</p>`}<${Btn} type="submit" disabled=${auth.busy} className="w-full justify-center">${auth.busy?'Please wait...':signup?'Create Account':'Log in'}</${Btn}></form>`:html`<p role="alert" className="font-semibold text-[#B00020]">Account sync is unavailable. Local storage is still active.</p>`}<p className="mt-6 text-center">${signup?'Already have an account?':'New to Digital Saathi?'} <button className="font-bold text-[#0B2A7A] underline underline-offset-4" onClick=${()=>go(signup?'login':'signup')}>${signup?'Log in':'Create an account'}</button></p></div></div></div>`}
+function AuthPage({mode}){const{auth,go}=useContext(C);const[fullName,setFullName]=useState(''),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[confirm,setConfirm]=useState(''),[error,setError]=useState('');const signup=mode==='signup';const submit=e=>{e.preventDefault();setError('');if(signup&&fullName.trim().length<2)return setError('Please enter your full name.');if(!email.trim())return setError('Please enter your email address.');if(password.length<6)return setError('Password must be at least 6 characters.');if(signup&&password!==confirm)return setError('Passwords do not match.');signup?auth.signUp(fullName,email,password):auth.signIn(email,password)};return html`<div className="auth-page min-h-screen flex items-center justify-center px-4 py-8 sm:px-6"><div className="auth-content w-full max-w-md"><div className="text-center mb-8"><button className="text-3xl font-bold tracking-tight" onClick=${()=>go('welcome')}>Digital Saathi</button><p className="mt-2 text-lg text-[#0B2A7A]">Learn digital skills safely, one step at a time.</p></div><div className="auth-card bg-white border-[3px] border-[#0B2A7A] rounded-[2rem] p-5 sm:p-8 shadow-[8px_8px_0_#0B2A7A]"><div className="mb-6"><h1 className="text-3xl sm:text-4xl font-bold">${signup?'Create your account':'Welcome back'}</h1><p className="mt-2 text-base sm:text-lg">${signup?'Create an account to sync your progress.':'Log in to continue learning.'}</p></div>${DigitalSaathiSupabase.configured?html`<form className="space-y-4" onSubmit=${submit} noValidate>${signup&&html`<div><label className="block font-bold mb-1" htmlFor="auth-full-name">Full name</label><input id="auth-full-name" type="text" autoComplete="name" required value=${fullName} onChange=${e=>setFullName(e.target.value)} className="w-full min-h-[50px] px-4 text-lg rounded-xl border-2 border-[#0B2A7A] focus:outline-none focus:ring-4 focus:ring-[#C9D7FF]"/></div>`}<div><label className="block font-bold mb-1" htmlFor="auth-email">Email</label><input id="auth-email" type="email" autoComplete="email" required value=${email} onChange=${e=>setEmail(e.target.value)} className="w-full min-h-[50px] px-4 text-lg rounded-xl border-2 border-[#0B2A7A] focus:outline-none focus:ring-4 focus:ring-[#C9D7FF]"/></div><div><label className="block font-bold mb-1" htmlFor="auth-password">Password</label><input id="auth-password" type="password" autoComplete=${signup?'new-password':'current-password'} required minLength="6" value=${password} onChange=${e=>setPassword(e.target.value)} className="w-full min-h-[50px] px-4 text-lg rounded-xl border-2 border-[#0B2A7A] focus:outline-none focus:ring-4 focus:ring-[#C9D7FF]"/></div>${signup&&html`<div><label className="block font-bold mb-1" htmlFor="auth-confirm-password">Confirm password</label><input id="auth-confirm-password" type="password" autoComplete="new-password" required minLength="6" value=${confirm} onChange=${e=>setConfirm(e.target.value)} className="w-full min-h-[50px] px-4 text-lg rounded-xl border-2 border-[#0B2A7A] focus:outline-none focus:ring-4 focus:ring-[#C9D7FF]"/></div>`}${error&&html`<p role="alert" className="text-[#B00020] font-semibold">${error}</p>`}${auth.error&&html`<p role="alert" className="text-[#B00020] font-semibold">${auth.error}</p>`}${auth.message&&html`<p role="status" className="text-[#14532D] font-semibold">${auth.message}</p>`}<${Btn} type="submit" disabled=${auth.busy} className="w-full justify-center">${auth.busy?'Please wait...':signup?'Create Account':'Log in'}</${Btn}></form>`:html`<p role="alert" className="font-semibold text-[#B00020]">Account sync is unavailable. Local storage is still active.</p>`}<p className="mt-6 text-center">${signup?'Already have an account?':'New to Digital Saathi?'} <button className="font-bold text-[#0B2A7A] underline underline-offset-4" onClick=${()=>go(signup?'login':'signup')}>${signup?'Log in':'Create an account'}</button></p></div></div></div>`}
 
 function Landing({go}){return html`<div className="max-w-5xl mx-auto p-3 sm:p-6 space-y-8 sm:space-y-10"><header className="flex flex-wrap justify-between items-center gap-3"><b className="text-3xl"> Digital Saathi</b><${Btn} v="s" onClick=${()=>go('lessons')}>Explore Lessons<${Arw}/></${Btn}></header>
 <${AuthPanel}/>
@@ -591,9 +665,9 @@ const ctx={st,up,go,set,setSet:setSettings,reset,auth:{...auth,signIn,signUp,sig
 let page;if(route==='welcome')return html`<${C.Provider} value=${ctx}><${Landing} go=${go}/></${C.Provider}>`;if(route==='login'||route==='signup')return html`<${C.Provider} value=${ctx}><${AuthPage} mode=${route}/></${C.Provider}>`;
 page=route.startsWith('lesson-')?html`<${Lesson} key=${route} id=${route.slice(7)}/>`:{login:html`<${AuthPage} mode="login"/>`,signup:html`<${AuthPage} mode="signup"/>`,home:html`<${Home}/>`,lessons:html`<${Lessons}/>`,practice:html`<${Practice}/>`,safety:html`<${Safety}/>`,progress:html`<${Progress}/>`,support:html`<${Support}/>`,settings:html`<${Settings}/>`}[route]||html`<${Card}><h1 className="text-3xl font-bold">Page not found</h1><${Btn} className="mt-4" onClick=${()=>go('home')}>Go Home</${Btn}></${Card}>`;
 const act=key==='lesson'?'lessons':key;
-return html`<${C.Provider} value=${ctx}><div className="min-h-screen lg:flex gap-6 p-3 sm:p-5 lg:p-6">
-<nav aria-label="Main" className="ui lg:w-72 shrink-0 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:overflow-y-auto bg-[#000000] text-white rounded-3xl p-3 lg:p-4 mb-4 lg:mb-0"><button onClick=${()=>go('welcome')} className="text-2xl font-bold px-3 py-3 w-full text-left"> Digital Saathi</button>
+return html`<${C.Provider} value=${ctx}><div className="app-shell min-h-screen lg:flex gap-6 p-3 sm:p-5 lg:p-6">
+<nav aria-label="Main" className="app-nav ui lg:w-72 shrink-0 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:overflow-y-auto bg-[#000000] text-white rounded-3xl p-3 lg:p-4 mb-4 lg:mb-0"><button onClick=${()=>go('welcome')} className="text-2xl font-bold px-3 py-3 w-full text-left"> Digital Saathi</button>
 <ul className="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible pb-1">${NAV.map(([k,i,n])=>html`<li key=${k}><button onClick=${()=>go(k)} aria-current=${act===k?'page':undefined} className=${'min-h-[48px] w-full whitespace-nowrap text-left px-4 rounded-2xl text-lg font-semibold '+(act===k?'bg-white text-black':'hover:bg-white hover:text-black')}>${set.lang==='ur'&&UR[k]?UR[k]:n}</button></li>`)}${auth.user&&html`<li><button onClick=${auth.signOut} disabled=${auth.busy} className="min-h-[48px] w-full whitespace-nowrap text-left px-4 rounded-2xl text-lg font-semibold hover:bg-white hover:text-black">Log out</button></li>`}</ul></nav>
-<main className="flex-1 min-w-0 w-full max-w-[1200px] mx-auto pb-28">${page}</main><${VoiceCmd}/></div></${C.Provider}>`}
+<main className="app-main flex-1 min-w-0 w-full max-w-[1200px] mx-auto pb-28">${page}</main><${VoiceCmd}/></div></${C.Provider}>`}
 ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
 </script></body></html>

@@ -14,12 +14,27 @@
     if (error) console.warn(`[Digital Saathi] Supabase ${operation} unavailable; local data remains active.`, error);
   };
 
+  async function updateOrInsert(table, filters, values, operation) {
+    const client = getClient();
+    const query = client.from(table).update(values);
+    Object.entries(filters).forEach(([column, value]) => query.eq(column, value));
+    const { data, error } = await query.select(Object.keys(filters).join(','));
+    if (error) {
+      warn(`${operation} update`, error);
+      return;
+    }
+    if (data && data.length > 0) return;
+
+    const result = await client.from(table).insert({ ...filters, ...values });
+    warn(`${operation} insert`, result.error);
+  }
+
   async function getUserData(userId) {
     const client = getClient();
     if (!client || !userId) return null;
 
     const [profile, tutorials, quizQuestions, progress, attempts, reminders] = await Promise.all([
-      client.from(TABLES.profiles).select('*').eq('id', userId).maybeSingle(),
+      client.from(TABLES.profiles).select('*').eq('id', userId).limit(1),
       client.from(TABLES.tutorials).select('*'),
       client.from(TABLES.quizQuestions).select('*'),
       client.from(TABLES.progress).select('*').eq('user_id', userId),
@@ -32,7 +47,7 @@
     });
 
     return {
-      profile: profile.error ? null : profile.data,
+      profile: profile.error ? null : (profile.data?.[0] || null),
       tutorials: tutorials.error ? [] : (tutorials.data || []),
       quizQuestions: quizQuestions.error ? [] : (quizQuestions.data || []),
       progress: progress.error ? [] : (progress.data || []),
@@ -51,29 +66,28 @@
     };
 
     remote.progress.forEach((row) => {
-      const lessonId = row.tutorial_id || row.lesson_id || row.tutorial || row.slug;
+      const lessonId = row.tutorial_id;
       if (!lessonId) return;
-      const step = Number(row.current_step ?? row.step ?? 0);
+      const step = Number(row.last_step ?? 0);
       state.step[lessonId] = step;
-      if (row.completed === true || row.is_completed === true) state.done[lessonId] = true;
+      if (row.completed === true) state.done[lessonId] = true;
     });
 
     remote.attempts.forEach((row) => {
-      const lessonId = row.tutorial_id || row.lesson_id || row.tutorial || row.slug;
-      const score = row.score ?? row.correct_answers;
-      const total = row.total_questions ?? row.total;
+      const lessonId = row.tutorial_id;
+      const score = row.score;
+      const total = row.total_questions;
       if (lessonId && score != null && total != null) state.scores[lessonId] = [Number(score), Number(total)];
     });
 
     const reminder = remote.reminders[0];
-    if (reminder) state.rem = reminder.reminder_time || reminder.time || reminder.scheduled_time || state.rem;
+    if (reminder) state.rem = reminder.reminder_time || state.rem;
 
     const settings = remote.profile ? {
       ...localSettings,
-      lang: remote.profile.language || remote.profile.lang || localSettings.lang,
-      fs: Number(remote.profile.font_size || remote.profile.text_size || localSettings.fs),
-      hc: remote.profile.high_contrast ?? remote.profile.hc ?? localSettings.hc,
-      voice: remote.profile.voice_guidance ?? remote.profile.voice ?? localSettings.voice
+      lang: remote.profile.preferred_language || localSettings.lang,
+      fs: Number(remote.profile.text_size || localSettings.fs),
+      voice: remote.profile.voice_enabled ?? localSettings.voice
     } : localSettings;
 
     return { state, settings };
@@ -82,14 +96,14 @@
   async function saveProgress(userId, lessonId, values) {
     const client = getClient();
     if (!client || !userId || !lessonId) return;
-    const { error } = await client.from(TABLES.progress).upsert({
+    await updateOrInsert(TABLES.progress, {
       user_id: userId,
-      tutorial_id: lessonId,
-      current_step: Number(values.step || 0),
+      tutorial_id: lessonId
+    }, {
+      last_step: Number(values.step || 0),
       completed: !!values.done,
-      updated_at: new Date().toISOString()
-    }, { onConflict: 'user_id,tutorial_id' });
-    warn('progress save', error);
+      progress_percentage: Number(values.progressPercentage ?? (values.done ? 100 : 0))
+    }, 'progress save');
   }
 
   async function saveScores(userId, scores) {
@@ -101,7 +115,7 @@
         tutorial_id: lessonId,
         score: Number(result[0]),
         total_questions: Number(result[1]),
-        completed_at: new Date().toISOString()
+        attempted_at: new Date().toISOString()
       });
       warn('quiz score save', error);
     }));
@@ -110,27 +124,20 @@
   async function saveProfile(userId, settings) {
     const client = getClient();
     if (!client || !userId) return;
-    const { error } = await client.from(TABLES.profiles).upsert({
-      id: userId,
-      language: settings.lang,
-      font_size: settings.fs,
-      high_contrast: !!settings.hc,
-      voice_guidance: !!settings.voice,
-      updated_at: new Date().toISOString()
-    }, { onConflict: 'id' });
-    warn('profile save', error);
+    await updateOrInsert(TABLES.profiles, { id: userId }, {
+      preferred_language: settings.lang,
+      text_size: settings.fs,
+      voice_enabled: !!settings.voice
+    }, 'profile save');
   }
 
   async function saveReminder(userId, reminderTime) {
     const client = getClient();
     if (!client || !userId || !reminderTime) return;
-    const { error } = await client.from(TABLES.reminders).upsert({
-      user_id: userId,
+    await updateOrInsert(TABLES.reminders, { user_id: userId }, {
       reminder_time: reminderTime,
-      enabled: true,
-      updated_at: new Date().toISOString()
-    }, { onConflict: 'user_id' });
-    warn('reminder save', error);
+      is_enabled: true
+    }, 'reminder save');
   }
 
   async function recordLearningSession(userId, durationMinutes, startedAt, endedAt) {
@@ -140,7 +147,7 @@
       user_id: userId,
       duration_minutes: Number(durationMinutes),
       started_at: startedAt || new Date().toISOString(),
-      ended_at: endedAt || new Date().toISOString()
+      completed_at: endedAt || new Date().toISOString()
     });
     warn('learning session save', error);
   }

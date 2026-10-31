@@ -15,8 +15,8 @@ guidance, accessible text, and optional Urdu support.
 - Guided lesson steps with explanations, progress state, quizzes, results,
   retry, and resume support.
 - English and Urdu interface options, adjustable text size, high-contrast
-  styling, voice guidance, read-aloud controls, and supported-browser voice
-  commands.
+  styling, English voice guidance, read-aloud controls, and supported-browser
+  voice commands.
 - Practice activities for a video call, an online form, and timed learning
   sessions. The practice activities are simulations and do not access real
   accounts, cameras, microphones, or external services.
@@ -139,8 +139,7 @@ existing schema and deployment needs. Do not disable RLS to make the app work.
   implemented.
 - Practice video-call and form activities are fictional simulations. They do
   not connect to real accounts or submit real forms.
-- Speech synthesis and voice commands depend on browser and device support.
-  Urdu voice availability varies by browser and operating system; no paid
-  speech API or frontend API key is used.
+- English speech synthesis and voice commands depend on browser and device
+  support. No paid speech API or frontend API key is used.
 - Financial and health lessons are educational content, not financial or
   medical advice.

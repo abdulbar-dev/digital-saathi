@@ -15,8 +15,8 @@ guidance, accessible text, and optional Urdu support.
 - Guided lesson steps with explanations, progress state, quizzes, results,
   retry, and resume support.
 - English and Urdu interface options, adjustable text size, high-contrast
-  styling, voice guidance, read-aloud controls, and supported-browser voice
-  commands.
+  styling, English voice guidance, read-aloud controls, and supported-browser
+  voice commands.
 - Practice activities for a video call, an online form, and timed learning
   sessions. The practice activities are simulations and do not access real
   accounts, cameras, microphones, or external services.
@@ -54,16 +54,12 @@ credentials into `supabase-client.js`.
 window.DIGITAL_SAATHI_CONFIG = {
   supabaseUrl: 'https://YOUR_PROJECT_REF.supabase.co',
   supabasePublishableKey: 'sb_publishable_YOUR_PUBLIC_KEY',
-  upliftTtsUrl: 'https://YOUR_PROJECT_REF.supabase.co/functions/v1/urdu-tts'
 };
 ```
 
 Use the project URL from Supabase without `/rest/v1/`, and use only the public
 key beginning with `sb_publishable_`. Never use a `service_role` key or any
 other secret key in this browser app.
-
-`upliftTtsUrl` is optional. When configured, Urdu read-aloud uses the UpliftAI
-MP3 service and falls back to browser speech if the service is unavailable.
 
 `supabase-config.local.js` is listed in `.gitignore`, must remain local, and
 must never be committed, pasted into issues or pull requests, or included in
@@ -105,8 +101,16 @@ compatibility but do not replace that built-in content.
 
 ## Required Supabase Auth and RLS policies
 
-Enable Email authentication in Supabase Auth and configure the local or
-deployed site URL and redirect URLs.
+Enable the Email provider in Supabase Auth. The app provides separate `#signup`
+and `#login` pages, persists the Supabase session, stores the signup full name
+in `profiles.full_name`, and returns signed-in users to the existing `#home`
+dashboard. If email confirmation is enabled, signup shows a confirmation
+message and the confirmation link must return to the configured site URL.
+
+For local testing, add `http://localhost:8000` to Supabase Auth URL
+Configuration as both the Site URL (or use your deployed URL there) and an
+allowed redirect URL. The signup redirect is the current page URL with
+`#home`; add the deployed page URL as an allowed redirect when hosting the app.
 
 Row Level Security must be enabled on every user-owned table. Policies must
 enforce that authenticated users can access only their own rows:
@@ -135,18 +139,7 @@ existing schema and deployment needs. Do not disable RLS to make the app work.
   implemented.
 - Practice video-call and form activities are fictional simulations. They do
   not connect to real accounts or submit real forms.
-- Speech synthesis and voice commands depend on browser and device support.
-  Urdu voice availability varies, and some voice behavior may require an
-  internet connection.
-- To enable UpliftAI Urdu audio, deploy `supabase/functions/urdu-tts/index.ts`
-  as a Supabase Edge Function and set the `UPLIFT_API_KEY` function secret:
-
-  ```bash
-  supabase functions deploy urdu-tts --no-verify-jwt
-  supabase secrets set UPLIFT_API_KEY='YOUR_UPLIFT_API_KEY'
-  ```
-
-  Keep the API key only in Supabase secrets. Never put it in
-  `supabase-config.local.js`, `index.html`, Git, or browser code.
+- English speech synthesis and voice commands depend on browser and device
+  support. No paid speech API or frontend API key is used.
 - Financial and health lessons are educational content, not financial or
   medical advice.
